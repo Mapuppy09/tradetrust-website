@@ -65,7 +65,7 @@ const webinars = [
     },
   },
   {
-    title: "Creation of Verifiable Documents",
+    title: "Creation of Verifiable Documents (DNS-TXT)",
     description:
       "This Webinar focuses on the creation of verifiable documents. These are documents that do not have the functionality of transferring title.",
     resource: {
@@ -105,6 +105,42 @@ const webinars = [
         {
           title: "Reading Document",
           timeStamp: 2496,
+        },
+      ],
+    },
+  },
+  {
+    title: "Creation of Verifiable Documents (DNS-DID)",
+    description:
+      "This Webinar focuses on the creation of verifiable documents using Ethereum DID. These are documents that do not have the functionality of transferring title.",
+    resource: {
+      youtubeEmbedCode: "ml0I2EojhN4",
+      tag: "Technical",
+      downloads: [],
+      videoChapters: [
+        {
+          title: "Creating a DID",
+          timeStamp: 10,
+        },
+        {
+          title: "Configuring DNS",
+          timeStamp: 76,
+        },
+        {
+          title: "Creating a Raw Document",
+          timeStamp: 134,
+        },
+        {
+          title: "Wrapping Documents",
+          timeStamp: 198,
+        },
+        {
+          title: "Signing Documents",
+          timeStamp: 236,
+        },
+        {
+          title: "Verify Documents",
+          timeStamp: 286,
         },
       ],
     },
@@ -281,20 +317,24 @@ export const LearnPage: FunctionComponent = () => {
       <Helmet>
         <meta
           property="description"
-          content="This series of tech talks is organised by the Infocomm Media Development Authority of Singapore (IMDA) and GovTech Singapore. It comprises six webinars and aims to provide professionals with knowledge on TradeTrust as a digital utility for cross border trade."
+          content="Here is where you can find technical webinars to learn how to create and verify a TradeTrust document!"
         />
         <meta
           property="og:description"
-          content="This series of tech talks is organised by the Infocomm Media Development Authority of Singapore (IMDA) and GovTech Singapore. It comprises six webinars and aims to provide professionals with knowledge on TradeTrust as a digital utility for cross border trade."
+          content="Here is where you can find technical webinars to learn how to create and verify a TradeTrust document!"
         />
-        <meta property="og:title" content="TradeTrust - An easy way to check and verify your documents" />
+        <meta property="og:title" content="TradeTrust - Learn" />
         <meta property="og:url" content={`${window.location.origin}/learn`} />
         <title>TradeTrust - Learn</title>
+        <meta
+          name="keywords"
+          content="Blockchain, Ethereum, NFT, Electronic Trade Document, Verifiable Document, Digital Trade Document, Webinars, Creation of Verifiable Documents, Transferable Documents"
+        />
       </Helmet>
 
       <div className="container py-12">
         <div className="flex">
-          <div className="w-full text-cloud-900">
+          <div className="w-full text-cloud-800">
             <h2>Learn TradeTrust</h2>
           </div>
         </div>

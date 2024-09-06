@@ -1,9 +1,9 @@
-import * as obfuscatedDocument from "../../../../../test/fixture/obfuscated-document.json";
+import * as obfuscatedDocument from "../../../../../test/fixture/local/v2/invoice-obfuscated-document.json";
 import { act, fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { whenDocumentValidAndIssuedByDns } from "../../../../../test/fixture/verifier-responses";
 import { ActionSelectionForm } from "./ActionSelectionForm";
-import { VerificationFragment } from "@govtechsg/oa-verify";
+import { VerificationFragment } from "@tradetrust-tt/tt-verify";
 import { WrappedOrSignedOpenAttestationDocument } from "../../../../../utils/shared";
 
 const defaultProps = {
@@ -18,7 +18,7 @@ const defaultProps = {
   onConnectToWallet: () => alert("Login to Metamask"),
   canChangeHolder: false,
   canEndorseBeneficiary: false,
-  canNominateBeneficiaryHolder: false,
+  canNominateBeneficiary: false,
   isSurrendered: false,
   canEndorseTransfer: false,
   isTitleEscrow: true,
@@ -186,7 +186,7 @@ describe("ActionSelectionForm", () => {
         {...defaultProps}
         onSetFormAction={mockOnSetFormAction}
         isTitleEscrow={false}
-        canHandleSurrender={true}
+        canHandleShred={true}
       />
     );
 
@@ -209,7 +209,7 @@ describe("ActionSelectionForm", () => {
         {...defaultProps}
         onSetFormAction={mockOnSetFormAction}
         isTitleEscrow={false}
-        canHandleSurrender={true}
+        canHandleRestore={true}
       />
     );
 

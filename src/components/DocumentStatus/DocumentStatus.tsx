@@ -1,9 +1,8 @@
-import { VerificationFragment, VerificationFragmentWithData, utils } from "@govtechsg/oa-verify";
+import { VerificationFragment, VerificationFragmentWithData, utils } from "@tradetrust-tt/tt-verify";
 import React, { FunctionComponent } from "react";
-import { NETWORK_NAME } from "../../config";
 import { StatusChecks } from "./StatusChecks";
 import { useSelector } from "react-redux";
-import { utils as oaUtils, WrappedDocument, v3 } from "@govtechsg/open-attestation";
+import { utils as oaUtils, WrappedDocument, v3 } from "@tradetrust-tt/tradetrust";
 import { RootState } from "../../reducers";
 import { WrappedOrSignedOpenAttestationDocument } from "../../utils/shared";
 
@@ -50,6 +49,11 @@ export const getV3IdentityVerificationText = (document: WrappedDocument<v3.OpenA
   return document.openAttestationMetadata.identityProof.identifier.toUpperCase();
 };
 
+// disabled until alpha is promoted to master
+// export const getV4IdentityVerificationText = (document: WrappedDocument<v4.OpenAttestationDocument>): string => {
+//   return document.issuer.identityProof.identifier.toUpperCase();
+// };
+
 interface IssuedByProps {
   title?: string;
   verificationStatus: VerificationFragment[];
@@ -57,13 +61,20 @@ interface IssuedByProps {
 }
 
 export const IssuedBy: FunctionComponent<IssuedByProps> = ({ title = "Issued by", verificationStatus, document }) => {
-  const formattedDomainNames = oaUtils.isWrappedV2Document(document)
-    ? getV2FormattedDomainNames(verificationStatus)
-    : getV3IdentityVerificationText(document);
+  let formattedDomainNames;
+  if (oaUtils.isWrappedV2Document(document)) {
+    formattedDomainNames = getV2FormattedDomainNames(verificationStatus);
+  } else if (oaUtils.isWrappedV3Document(document)) {
+    formattedDomainNames = getV3IdentityVerificationText(document);
+  }
+  // disabled until alpha tradetrust-tt packages are promoted to master
+  // else {
+  //   formattedDomainNames = getV4IdentityVerificationText(document);
+  // }
   return (
-    <h2 id="issuedby" className="break-words leading-tight">
-      <span className="mr-2 inline-block break-all">{title}</span>
-      <span className="text-cerulean inline-block">{formattedDomainNames}</span>
+    <h2 id="issuedby" className="my-2 leading-none">
+      <span className="mr-2 break-all">{title}</span>
+      <span className="text-cerulean-500 break-words">{formattedDomainNames}</span>
     </h2>
   );
 };
@@ -86,13 +97,11 @@ export const DocumentStatus: FunctionComponent<DocumentStatusProps> = ({ isMagic
       <div id="document-status" className="py-4">
         <div className="flex flex-col">
           <div className="flex-grow">
-            {NETWORK_NAME !== "local" && (
-              <IssuedBy
-                title={isMagicDemo ? "Demo issued by" : "Issued by"}
-                verificationStatus={verificationStatus}
-                document={document}
-              />
-            )}
+            <IssuedBy
+              title={isMagicDemo ? "Demo issued by" : "Issued by"}
+              verificationStatus={verificationStatus}
+              document={document}
+            />
           </div>
           <StatusChecks verificationStatus={verificationStatus} />
         </div>

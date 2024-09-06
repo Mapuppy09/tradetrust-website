@@ -2,10 +2,10 @@ import { put, select, takeEvery } from "redux-saga/effects";
 import { getLogger } from "../utils/logger";
 import { verifyDemoDocumentCompleted, verifyDemoDocumentFailure, getDemoDocument } from "../reducers/demo-verify";
 import { verifyDocument, VerifierType } from "../services/verify";
-import { isValid } from "@govtechsg/oa-verify";
+import { isValid } from "@tradetrust-tt/tt-verify";
 import { NETWORK_NAME } from "../config";
 import { history } from "../history";
-import { CONSTANTS } from "@govtechsg/tradetrust-utils";
+import { CONSTANTS } from "@tradetrust-tt/tradetrust-utils";
 
 const { trace } = getLogger("saga:demo");
 

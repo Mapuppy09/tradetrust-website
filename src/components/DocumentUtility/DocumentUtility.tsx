@@ -1,5 +1,5 @@
-import { v2, utils } from "@govtechsg/open-attestation";
-import { ButtonIcon } from "@govtechsg/tradetrust-ui-components";
+import { v2, utils } from "@tradetrust-tt/tradetrust";
+import { ButtonIcon } from "@tradetrust-tt/tradetrust-ui-components";
 import QRCode, { ImageSettings } from "qrcode.react";
 import React, { FunctionComponent, useState } from "react";
 import { Download, Printer } from "react-feather";
@@ -47,10 +47,11 @@ export const DocumentUtility: FunctionComponent<DocumentUtilityProps> = ({ docum
               }}
             >
               <ButtonIcon
-                className="bg-white border-2 border-cloud-100 rounded-xl hover:bg-gray-100"
+                className="bg-white border-2 border-cloud-100 rounded-xl hover:bg-cloud-100"
                 aria-label="document-utility-qr-button"
+                style={{ width: "auto", height: "auto" }}
               >
-                <SvgIcon className="text-cerulean" strokeWidth="0.5" fill="currentColor">
+                <SvgIcon className="text-cerulean-500" strokeWidth="0.5" fill="currentColor">
                   <SvgIconQRCode />
                 </SvgIcon>
               </ButtonIcon>
@@ -74,9 +75,10 @@ export const DocumentUtility: FunctionComponent<DocumentUtilityProps> = ({ docum
         </div>
         <div className="w-auto ml-3">
           <ButtonIcon
-            className="bg-white text-cerulean border-2 border-cloud-100 rounded-xl hover:bg-gray-100"
+            className="bg-white text-cerulean-500 border-2 border-cloud-100 rounded-xl hover:bg-cloud-100"
             aria-label="document-utility-print-button"
             onClick={() => onPrint()}
+            style={{ width: "auto", height: "auto" }}
           >
             <Printer />
           </ButtonIcon>
@@ -89,7 +91,10 @@ export const DocumentUtility: FunctionComponent<DocumentUtilityProps> = ({ docum
             role="button"
             aria-label="document-utility-download"
           >
-            <ButtonIcon className="bg-white text-cerulean border-2 border-cloud-100 rounded-xl hover:bg-gray-100">
+            <ButtonIcon
+              className="bg-white text-cerulean-500 border-2 border-cloud-100 rounded-xl hover:bg-cloud-100"
+              style={{ width: "auto", height: "auto" }}
+            >
               <Download />
             </ButtonIcon>
           </a>

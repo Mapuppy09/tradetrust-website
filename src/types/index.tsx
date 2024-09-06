@@ -1,28 +1,53 @@
-import { HostActions } from "@govtechsg/decentralized-renderer-react-components";
+import { HostActions } from "@tradetrust-tt/decentralized-renderer-react-components";
+import { ChainId } from "./../constants/chain-info";
+
 export interface TemplateProps {
   id: string;
   label: string;
   type: string;
 }
 
-export type TradeTrustErc721EventType = "Transfer" | "Transfer to Wallet" | "Surrender" | "Burnt";
+export type TradeTrustTokenEventType =
+  | "INITIAL"
+  | "NEW_OWNERS"
+  | "ENDORSE"
+  | "TRANSFER"
+  | "SURRENDERED"
+  | "SURRENDER_REJECTED"
+  | "SURRENDER_ACCEPTED"
+  | "TRANSFER_TO_WALLET"
+  | "INVALID";
 
-export interface TradeTrustErc721Event {
-  eventType: TradeTrustErc721EventType;
-  documentOwner: string;
-  eventTimestamp?: number;
+export type TransferEventType = TokenTransferEventType | TitleEscrowTransferEventType;
+export interface TransferBaseEvent {
+  type: TransferEventType;
+  transactionIndex: number;
+  holder?: string;
+  owner?: string;
+  transactionHash: string;
+  blockNumber: number;
 }
 
-export interface TitleEscrowEvent extends TradeTrustErc721Event {
-  beneficiary: string;
-  holderChangeEvents: {
-    blockNumber: number;
-    holder: string;
-    timestamp: number;
-  }[];
+export type TokenTransferEventType = "INITIAL" | "SURRENDERED" | "SURRENDER_REJECTED" | "SURRENDER_ACCEPTED";
+export interface TitleEscrowTransferEvent extends TransferBaseEvent {
+  type: TitleEscrowTransferEventType;
 }
 
-export type EndorsementChain = (TradeTrustErc721Event | TitleEscrowEvent)[];
+export type TitleEscrowTransferEventType = "TRANSFER_BENEFICIARY" | "TRANSFER_HOLDER" | "TRANSFER_OWNERS";
+
+export interface TokenTransferEvent extends TransferBaseEvent {
+  type: TokenTransferEventType;
+  from: string;
+  to: string;
+}
+
+export interface TransferEvent extends TransferBaseEvent {
+  timestamp: number;
+  holder: string;
+  owner: string;
+}
+
+export type EndorsementChain = TransferEvent[];
 
 export type Resource = {
   title: string;
@@ -30,49 +55,29 @@ export type Resource = {
   date?: string;
 };
 
-export interface PersonaProps {
-  personaIndex: number;
-  details: Persona;
-}
-
-export interface DocumentTypeContentProps {
-  documentTypeContent: DocumentTypeContent;
-}
-
-export type Persona = {
-  image: string;
-  jobTitle: string;
-  description: string;
-  learnMore: {
-    title: string;
-    startMessage?: string;
-    thenSteps?: {
-      stepTitle: string;
-      icon?: string;
-      description: string;
-    }[];
-    nowSteps?: {
-      stepTitle: string;
-      icon?: string;
-      description: string;
-    }[];
-    benefits?: { benefitTitle: string; icon: string; description: string }[];
-    endMessage: string;
-  };
-};
-
-export type DocumentTypeContent = {
-  type: string;
-  description: string;
-  examples: string;
-  message: string;
-  users: Persona[];
-};
-
-export enum ContentType {
-  BENEFIT = "BENEFIT",
-  THEN = "THEN",
-  NOW = "NOW",
-}
-
 export type Dispatch = (action: HostActions) => void;
+
+export enum GaAction {
+  MAGIC_START = "magic_demo_start",
+  MAGIC_ISSUE = "magic_demo_issue",
+  MAGIC_DOWNLOADED = "magic_demo_downloaded",
+  MAGIC_FILE_DROP = "magic_demo_file_drop",
+  MAGIC_DROP_OFF = "magic_demo_drop_off",
+  CAROUSEL_DOWNLOAD = "carousel_file_download",
+  LEGAL_ARTICLE_DOWNLOAD = "legal_article_download",
+}
+
+export enum GaCategory {
+  MAGIC_DEMO = "magic_demo",
+  FILE_DOWNLOAD = "file_download",
+}
+
+export interface ActionPayload {
+  uri: string;
+  permittedActions: string[];
+  redirect: string;
+  key?: string;
+  chainId?: ChainId;
+}
+
+export type ActionType = "DOCUMENT";

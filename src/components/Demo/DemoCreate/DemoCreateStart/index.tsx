@@ -1,4 +1,5 @@
-import { Button } from "@govtechsg/tradetrust-ui-components";
+import { Button } from "@tradetrust-tt/tradetrust-ui-components";
+import { gaEvent } from "@tradetrust-tt/tradetrust-utils";
 import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,11 +7,11 @@ import { useProviderContext } from "../../../../common/contexts/provider";
 import { deployingDocStore, getDocumentPrepared } from "../../../../reducers/demo-create";
 import { getFunds } from "../../../../services/create";
 import { DemoCreateContext } from "../contexts/DemoCreateContext";
-import { LoadingModal } from "../../LoadingModal";
-import { gaEvent } from "../../../../common/analytics";
+import { LoadingModal } from "../../../UI/Overlay";
+import { GaAction, GaCategory } from "../../../../types";
 
 export const DemoCreateStart: FunctionComponent = () => {
-  const { getSigner } = useProviderContext();
+  const { providerOrSigner, account } = useProviderContext();
   const { setActiveStep } = useContext(DemoCreateContext);
   const [loading, setLoading] = useState(false);
   const [getFundsError, setGetFundsError] = useState(false);
@@ -23,16 +24,15 @@ export const DemoCreateStart: FunctionComponent = () => {
     try {
       setLoading(true);
       setGetFundsError(false);
-      const provider = getSigner();
-      if (!provider) throw new Error("Not connected");
-      const account = await provider.getAddress();
-      const balance = await provider.getBalance("latest");
+      if (!providerOrSigner) throw new Error("Invalid provider");
+      if (!account) throw new Error("Not connected");
+      const balance = await providerOrSigner.getBalance("latest");
       const formattedBalance = Number(ethers.utils.formatEther(balance));
 
       if (formattedBalance <= 1) {
         await getFunds(account as string);
       }
-      dispatch(deployingDocStore(provider));
+      dispatch(deployingDocStore(providerOrSigner));
     } catch (e) {
       setGetFundsError(true);
       setLoading(false);
@@ -44,8 +44,8 @@ export const DemoCreateStart: FunctionComponent = () => {
       setActiveStep("form");
       setLoading(false);
       gaEvent({
-        action: "magic_demo_start",
-        category: "magic_demo",
+        action: GaAction.MAGIC_START,
+        category: GaCategory.MAGIC_DEMO,
       });
     }
 
@@ -89,7 +89,7 @@ export const DemoCreateStart: FunctionComponent = () => {
           return (
             <div key={img} className="w-1/3 px-3">
               <img alt={title} className="mx-auto h-32" src={`/static/images/demo/${img}`} />
-              <p className="text-cerulean text-center">{title}</p>
+              <p className="text-cerulean-500 text-center">{title}</p>
             </div>
           );
         })}
@@ -101,7 +101,7 @@ export const DemoCreateStart: FunctionComponent = () => {
           </h3>
         </div>
       ) : (
-        <Button onClick={handleStart} className="flex mx-auto bg-cerulean text-white mt-8 hover:bg-cerulean-300">
+        <Button onClick={handleStart} className="flex mx-auto bg-cerulean-500 text-white mt-8 hover:bg-cerulean-800">
           Start Now
         </Button>
       )}

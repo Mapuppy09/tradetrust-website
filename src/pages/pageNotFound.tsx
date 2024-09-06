@@ -1,4 +1,4 @@
-import { ErrorPage } from "@govtechsg/tradetrust-ui-components";
+import { ErrorPage } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,8 +11,8 @@ export const PageNotFound: FunctionComponent = () => {
       image="/static/images/errorpage/404.png"
     >
       <h3 className="font-normal my-2 sm:my-4 text-lg sm:text-2xl">
-        Go to
-        <Link className="text-cerulean-200" to="/">
+        {"Go to "}
+        <Link className="text-cerulean-300" to="/">
           {" "}
           Homepage
         </Link>

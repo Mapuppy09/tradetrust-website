@@ -9,6 +9,14 @@ export const makeEtherscanAddressURL = (address: string, chainId: ChainId): stri
   return new URL(`/address/${address}`, baseUrl).href;
 };
 
+export const isValidEndorseTransfer = (holder?: string, newHolder?: string, newOwner?: string): boolean => {
+  if (!newHolder || !newOwner) return false;
+  if (newHolder === holder) return false;
+  if (!isEthereumAddress(newHolder) || !isEthereumAddress(newOwner)) return false;
+
+  return true;
+};
+
 export const isEthereumAddress = (address: string): boolean | undefined => {
   try {
     if (utils.getAddress(address)) {
@@ -93,4 +101,18 @@ export const getFileName = (filePath: string): string => {
     filePath.match(/[A-Za-z0-9_\-\.]+$/)?.shift() ||
     filePath
   );
+};
+
+export const currentDateStr = (): string => {
+  return new Date().toLocaleString("en-SG", { hour12: true, timeZoneName: "short" });
+};
+
+export const isExternalLink = (url: string): boolean => {
+  try {
+    const currentHostname = location.hostname;
+    const urlHostname = new URL(url).hostname;
+    return currentHostname !== urlHostname;
+  } catch (error) {
+    return false;
+  }
 };

@@ -1,4 +1,4 @@
-import { Dropdown, DropdownItem } from "@govtechsg/tradetrust-ui-components";
+import { Dropdown, DropdownItem } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useState } from "react";
 import { Download } from "react-feather";
 import { convertSecondsToMinAndSec } from "../../../utils";
@@ -30,9 +30,9 @@ export const ResourceWebinar: FunctionComponent<ResourceWebinarProps> = ({ title
     <div className="bg-white shadow-lg rounded-lg mb-8">
       <div className="flex flex-wrap">
         <div className="w-full xl:w-1/2">
-          <div className="aspect-16-9 h-full">
+          <div className="relative h-full">
             <iframe
-              className="absolute top-0 left-0 w-full h-full rounded-t-lg"
+              className="xl:absolute top-0 left-0 w-full h-full aspect-video rounded-tl-lg xl:rounded-bl-lg rounded-tr-lg xl:rounded-tr-none"
               src={`https://www.youtube.com/embed/${youtubeEmbedCode}${
                 currentTimeStamp ? `?autoplay=1&rel=0&start=${currentTimeStamp}` : "?rel=0"
               }`}
@@ -44,19 +44,19 @@ export const ResourceWebinar: FunctionComponent<ResourceWebinarProps> = ({ title
           </div>
         </div>
         <div className="w-full xl:w-1/2">
-          <div className="text-cloud-900 px-5 pt-3 pb-5">
+          <div className="text-cloud-800 px-5 pt-3 pb-5">
             <h4 className="title mb-2">
               <a
                 href={`https://www.youtube.com/watch?v=${youtubeEmbedCode}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cloud-900"
+                className="text-cloud-800"
                 data-testid="youtubeEmbed-title-link"
               >
                 {title}
               </a>
             </h4>
-            <div className="inline-block border border-solid border-gray w-auto text-sm rounded font-medium p-1 mb-4">
+            <div className="inline-block border border-solid border-cloud-500 w-auto text-sm rounded font-medium p-1 mb-4">
               {tag}
             </div>
             <p className="mb-4">{description}</p>
@@ -64,13 +64,13 @@ export const ResourceWebinar: FunctionComponent<ResourceWebinarProps> = ({ title
               data-testid="quick-video-links-dropdown"
               dropdownButtonText="Quick Video Links"
               classNameShared="w-full lg:w-auto"
-              className="rounded border border-gray-300 p-2 mb-2"
+              className="rounded border border-cloud-200 p-2 mb-2"
             >
               {videoChapters.map((videoChapter, i) => {
                 return (
                   <DropdownItem
                     key={i}
-                    className={"break-words text-clip whitespace-normal text-cloud-900 "}
+                    className={"break-words text-clip whitespace-normal text-cloud-800 "}
                     data-testid="video-chapters-dropdown"
                     onClick={() => setCurrentTimeStamp(videoChapter.timeStamp)}
                   >
@@ -79,17 +79,17 @@ export const ResourceWebinar: FunctionComponent<ResourceWebinarProps> = ({ title
                 );
               })}
             </Dropdown>
-            <div className="py-2 text-blue">
+            <div className="py-2">
               {downloads?.map((download, index) => (
                 <a
-                  className="font-semibold flex items-start mt-1"
+                  className="flex items-start mt-1"
                   href={download.path}
                   download={download.fileName}
                   key={index}
                   data-testid="download-link"
                 >
                   <Download />
-                  <span className="ml-2">{download.fileName}</span>
+                  <h5 className="ml-2">{download.fileName}</h5>
                 </a>
               ))}
             </div>

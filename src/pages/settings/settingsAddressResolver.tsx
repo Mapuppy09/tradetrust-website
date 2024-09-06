@@ -1,4 +1,4 @@
-import { AddressResolver, BackArrow } from "@govtechsg/tradetrust-ui-components";
+import { AddressResolver, BackArrow } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -17,8 +17,8 @@ export const SettingsAddressResolverPage: FunctionComponent = () => (
         <BackArrow />
       </Link>
       <div className="flex-1 flex-col">
-        <h2 className="font-ubuntu text-4xl text-cloud-900">Resolver: Address</h2>
-        <p className="mb-5 text-cloud-900">Add third party’s endpoint to resolve addresses.</p>
+        <h2 className="text-cloud-800">Resolver: Address</h2>
+        <p className="mb-5 text-cloud-800">Add third party’s endpoint to resolve addresses.</p>
       </div>
       <AddressResolver />
     </div>

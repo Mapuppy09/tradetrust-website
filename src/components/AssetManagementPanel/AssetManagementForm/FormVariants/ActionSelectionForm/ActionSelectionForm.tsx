@@ -1,4 +1,9 @@
-import { Button, MessageTitle, OverlayContext, showDocumentTransferMessage } from "@govtechsg/tradetrust-ui-components";
+import {
+  Button,
+  MessageTitle,
+  OverlayContext,
+  showDocumentTransferMessage,
+} from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useContext } from "react";
 import { TagBorderedLg } from "../../../../UI/Tag";
 import { AssetInformationPanel } from "../../../AssetInformationPanel";
@@ -13,13 +18,14 @@ interface ActionSelectionFormProps {
   holder?: string;
   account?: string;
   canSurrender: boolean;
-  canHandleSurrender?: boolean;
+  canHandleShred?: boolean;
+  canHandleRestore?: boolean;
   onConnectToWallet: () => void;
   canChangeHolder: boolean;
   canEndorseBeneficiary: boolean;
   isSurrendered: boolean;
   isTokenBurnt: boolean;
-  canNominateBeneficiaryHolder: boolean;
+  canNominateBeneficiary: boolean;
   canEndorseTransfer: boolean;
   setShowEndorsementChain: (payload: boolean) => void;
   isTitleEscrow: boolean;
@@ -32,23 +38,25 @@ export const ActionSelectionForm: FunctionComponent<ActionSelectionFormProps> = 
   holder,
   account,
   canSurrender,
-  canHandleSurrender,
+  canHandleShred,
+  canHandleRestore,
   onConnectToWallet,
   canChangeHolder,
   canEndorseBeneficiary,
   isSurrendered,
   isTokenBurnt,
-  canNominateBeneficiaryHolder,
+  canNominateBeneficiary,
   canEndorseTransfer,
   setShowEndorsementChain,
   isTitleEscrow,
 }) => {
   const canManage =
-    canHandleSurrender ||
+    canHandleShred ||
+    canHandleRestore ||
     canSurrender ||
     canChangeHolder ||
     canEndorseBeneficiary ||
-    canNominateBeneficiaryHolder ||
+    canNominateBeneficiary ||
     canEndorseTransfer;
 
   const { showOverlay } = useContext(OverlayContext);
@@ -86,8 +94,10 @@ export const ActionSelectionForm: FunctionComponent<ActionSelectionFormProps> = 
         {isSurrendered && (
           <div className="w-full px-4 lg:w-auto self-end">
             <div className="py-4">
-              <TagBorderedLg id="surrender-sign" className="bg-white rounded-xl text-rose border-rose">
-                <h3 className="text-4xl">Surrendered To Issuer</h3>
+              <TagBorderedLg id="surrender-sign" className="bg-white rounded-xl text-scarlet-500 border-scarlet-500">
+                <h3 className="text-4xl" data-testid="surrenderToIssuer">
+                  Surrendered To Issuer
+                </h3>
               </TagBorderedLg>
             </div>
           </div>
@@ -95,7 +105,7 @@ export const ActionSelectionForm: FunctionComponent<ActionSelectionFormProps> = 
         {isTokenBurnt && (
           <div className="w-full px-4 lg:w-auto self-end">
             <div className="py-4">
-              <TagBorderedLg id="surrendered-sign" className="bg-white rounded-xl text-rose border-rose">
+              <TagBorderedLg id="surrendered-sign" className="bg-white rounded-xl text-scarlet-500 border-scarlet-500">
                 <h3 className="text-4xl">Surrendered</h3>
               </TagBorderedLg>
             </div>
@@ -123,13 +133,14 @@ export const ActionSelectionForm: FunctionComponent<ActionSelectionFormProps> = 
                     canSurrender={canSurrender}
                     canChangeHolder={canChangeHolder}
                     canEndorseBeneficiary={canEndorseBeneficiary}
-                    canNominateBeneficiaryHolder={canNominateBeneficiaryHolder}
+                    canNominateBeneficiary={canNominateBeneficiary}
                     canEndorseTransfer={canEndorseTransfer}
-                    canHandleSurrender={canHandleSurrender}
+                    canHandleRestore={canHandleRestore}
+                    canHandleShred={canHandleShred}
                   />
                 ) : (
                   <Button
-                    className="bg-cerulean text-white rounded-xl text-lg py-2 px-3 hover:bg-cerulean-300"
+                    className="bg-cerulean-500 text-white rounded-xl text-lg py-2 px-3 hover:bg-cerulean-800"
                     onClick={handleNoAccess}
                   >
                     No Access
@@ -138,7 +149,7 @@ export const ActionSelectionForm: FunctionComponent<ActionSelectionFormProps> = 
               </>
             ) : (
               <Button
-                className="bg-cerulean text-white rounded-xl text-lg py-2 px-3 hover:bg-cerulean-300"
+                className="bg-cerulean-500 text-white rounded-xl text-lg py-2 px-3 hover:bg-cerulean-800"
                 data-testid={"connectToWallet"}
                 onClick={handleConnectWallet}
               >

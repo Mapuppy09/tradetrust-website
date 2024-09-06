@@ -4,14 +4,15 @@ import { DemoCreateContext } from "./contexts/DemoCreateContext";
 import { Prompt } from "react-router";
 import { useHistory } from "react-router-dom";
 import { Location } from "history";
-import { useOverlayContext } from "@govtechsg/tradetrust-ui-components";
+import { useOverlayContext } from "@tradetrust-tt/tradetrust-ui-components";
+import { gaEvent } from "@tradetrust-tt/tradetrust-utils";
 import { DemoCreateForm } from "./DemoCreateForm";
 import { DemoCreateHeader } from "./DemoCreateHeader";
 import { DemoCreateIssue } from "./DemoCreateIssue";
 import { DemoCreateReview } from "./DemoCreateReview";
 import { DemoCreateStart } from "./DemoCreateStart";
 import { ModalNavigateOut } from "../ModalNavigateOut";
-import { gaEvent } from "../../../common/analytics";
+import { GaAction, GaCategory } from "../../../types";
 
 export const DemoCreate: FunctionComponent = () => {
   const history = useHistory();
@@ -42,8 +43,8 @@ export const DemoCreate: FunctionComponent = () => {
             closeModal();
             history.push(location.pathname);
             gaEvent({
-              action: "magic_demo_drop_off",
-              category: "magic_demo",
+              action: GaAction.MAGIC_DROP_OFF,
+              category: GaCategory.MAGIC_DEMO,
             });
           }}
           setOnNavigateOut={setOnNavigateOut}

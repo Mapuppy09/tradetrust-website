@@ -1,4 +1,4 @@
-import { Input, Button } from "@govtechsg/tradetrust-ui-components";
+import { Input, Button } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload } from "react-feather";
@@ -61,13 +61,15 @@ export const DemoCreateFormItem: FunctionComponent<DemoCreateFormItemProps> = ({
     const { getRootProps, getInputProps, open } = useDropzone({
       onDrop,
       multiple: false,
-      accept: "image/jpeg, image/png",
+      accept: {
+        "image/*": [".jpeg", ".jpg", ".png"],
+      },
     });
 
     return (
       <>
         <h4 className="mb-2">Upload First Signatory Authentication</h4>
-        <Button onClick={open} className="bg-white text-cerulean-500 hover:bg-gray-50 mb-4">
+        <Button onClick={open} className="bg-white text-cerulean-500 hover:bg-cloud-100 mb-4">
           <div className="flex items-center mx-0">
             <div className="col-auto mr-2">
               <Upload />
@@ -100,7 +102,7 @@ export const DemoCreateFormItem: FunctionComponent<DemoCreateFormItemProps> = ({
           disabled={formItem.options?.readonly}
           data-testid="form-item-textarea"
           rows={4}
-          className="resize-none w-full border rounded-md px-2 py-1 mb-0 focus:border-cloud-900 focus:outline-none placeholder-cloud-200 border-cloud-200"
+          className="resize-none w-full border rounded-md px-2 py-1 mb-0 focus:border-cloud-800 focus:outline-none placeholder-cloud-300 border-cloud-200"
           value={value}
           onChange={(e) => {
             setValue(e.target.value);

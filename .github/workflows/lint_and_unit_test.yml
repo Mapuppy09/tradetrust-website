@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install Packages
+        run: npm ci
+      - name: Check Lint
+        run: npm run lint
+      - name: Test
+        if: ${{ !contains(github.event.pull_request.title, '[skip test]') }}
+        run: npm run test
+      - name: Build
+        run: npm run build:prod # this MUST be run to ensure production site will be built without errors

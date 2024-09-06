@@ -15,14 +15,14 @@ export const AssetInformationPanel: FunctionComponent<AssetInformationPanelProps
 }) => {
   return (
     <div className={`py-4 ${className}`}>
-      <AddressInfo title="BL information" name="" resolvedBy="" source="">
-        <ExternalLinkEtherscanAddress name="View BL Registry" address={tokenRegistryAddress} />
+      <AddressInfo title="NFT information" name="" resolvedBy="" source="">
+        <ExternalLinkEtherscanAddress name="View NFT Registry" address={tokenRegistryAddress} />
         <div
           onClick={() => setShowEndorsementChain(true)}
-          className="cursor-pointer transition-colors duration-200 ease-out text-cerulean-200 hover:text-cerulean"
+          className="cursor-pointer transition-colors duration-200 ease-out text-cerulean-300 hover:text-cerulean-500"
           id="endorsement-chain-button"
         >
-          <h5 className="text-cerulean-200 hover:text-cerulean">View Endorsement Chain</h5>
+          <h5 className="text-cerulean-300 hover:text-cerulean-500">View Endorsement Chain</h5>
         </div>
       </AddressInfo>
     </div>

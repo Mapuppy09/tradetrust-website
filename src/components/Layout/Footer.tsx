@@ -1,10 +1,11 @@
+import { Footer as BaseFooter, FooterColumnItemProps } from "@tradetrust-tt/tradetrust-ui-components";
 import React from "react";
-import { Footer as BaseFooter, FooterColumnItemProps } from "@govtechsg/tradetrust-ui-components";
-import { NavLink } from "react-router-dom";
 import { ExternalLink } from "react-feather";
+import { NavLink } from "react-router-dom";
 import { URLS } from "../../constants";
+import { FORM_SG_URL } from "../../routes";
 
-const sharedStyles = `font-medium text-sm`;
+const sharedStyles = `font-medium text-sm text-cloud-500 hover:text-cerulean-500`;
 const renderNavLink = ({ label, to }: FooterColumnItemProps) => {
   return (
     <NavLink className={sharedStyles} to={to}>
@@ -22,6 +23,13 @@ const renderExternalLink = ({ label, to }: FooterColumnItemProps) => {
     </a>
   );
 };
+const renderBottomNavLink = ({ label, to }: FooterColumnItemProps) => {
+  return (
+    <NavLink className={`${sharedStyles} px-4 border-r`} to={to}>
+      {label}
+    </NavLink>
+  );
+};
 
 const data = [
   {
@@ -37,6 +45,7 @@ const data = [
       { label: "Learn", to: "/learn", render: renderNavLink },
       { label: "FAQ", to: "/faq", render: renderNavLink },
       { label: "ETA", to: "/eta", render: renderNavLink },
+      { label: "Partners", to: "/partners", render: renderNavLink },
     ],
   },
   {
@@ -51,7 +60,7 @@ const data = [
     items: [
       { label: "Github", to: URLS.GITHUB, render: renderExternalLink },
       { label: "Documentation", to: URLS.DOCS, render: renderExternalLink },
-      { label: "Contact", to: "/contact", render: renderNavLink },
+      { label: "Contact", to: FORM_SG_URL, render: renderExternalLink },
       { label: "FAQ", to: "/faq", render: renderNavLink },
     ],
   },
@@ -64,8 +73,21 @@ const data = [
   },
 ];
 
+const legalData = {
+  copyright: "Copyright \u00A9 2021 TradeTrust",
+  items: [
+    { label: "Privacy Policy", to: "/privacy-policy", render: renderBottomNavLink },
+    { label: "Terms of Use", to: "/terms-of-use", render: renderBottomNavLink },
+  ],
+};
+
 export const Footer: React.FunctionComponent = () => {
   return (
-    <BaseFooter className="py-8 px-6" title={"TradeTrust"} copyright={"Copyright \u00A9 2021 TradeTrust"} data={data} />
+    <BaseFooter
+      className="py-8 px-6"
+      logoUrl={"/static/images/tradetrust_logo.svg"}
+      legalData={legalData}
+      data={data}
+    />
   );
 };

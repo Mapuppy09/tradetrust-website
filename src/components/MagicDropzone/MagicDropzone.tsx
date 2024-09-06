@@ -2,14 +2,15 @@ import React, { FunctionComponent, useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
-import { isValid } from "@govtechsg/oa-verify";
-import { Button, ButtonSize, LoaderSpinner } from "@govtechsg/tradetrust-ui-components";
+import { isValid } from "@tradetrust-tt/tt-verify";
+import { Button, ButtonSize, LoaderSpinner } from "@tradetrust-tt/tradetrust-ui-components";
+import { gaEvent } from "@tradetrust-tt/tradetrust-utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { DetailedErrors } from "../DocumentDropzone/DetailedErrors";
 import { updateDemoDocument, resetDemoState } from "../../reducers/demo-verify";
 import { getDropzoneBoxUi } from "./../../common/utils/getDropzoneBoxUi";
-import { gaEvent } from "./../../common/analytics";
+import { GaAction, GaCategory } from "../../types";
 
 interface MagicDropzoneViewProps {
   isPending: boolean;
@@ -46,14 +47,14 @@ const MagicDropzoneView: FunctionComponent<MagicDropzoneViewProps> = ({ isPendin
               e.stopPropagation();
             }}
           >
-            <Button className="text-white bg-red-500 border-red-500 hover:bg-red-300 hover:border-red-300">
+            <Button className="text-white bg-scarlet-500 border-scarlet-500 hover:bg-scarlet-400 hover:border-scarlet-400">
               What Should I do?
             </Button>
           </Link>
           <br />
           <div
             data-testid="try-another"
-            className="my-8 transition-colors duration-200 underline cursor-pointer text-red-500 hover:text-gray-500"
+            className="my-8 transition-colors duration-200 underline cursor-pointer text-scarlet-500 hover:text-cloud-500"
             onClick={(e) => {
               e.preventDefault();
               resetDocument();
@@ -66,7 +67,7 @@ const MagicDropzoneView: FunctionComponent<MagicDropzoneViewProps> = ({ isPendin
     default:
       return (
         <div>
-          <h2 className="absolute top-0 left-0 right-0 mt-8 mx-auto text-gray-600 text-opacity-10 text-7xl lg:text-9xl">
+          <h2 className="absolute top-0 left-0 right-0 mt-8 mx-auto text-cloud-800 text-opacity-10 text-7xl lg:text-9xl">
             DEMO
           </h2>
           <img
@@ -76,7 +77,7 @@ const MagicDropzoneView: FunctionComponent<MagicDropzoneViewProps> = ({ isPendin
           />
           <h4>Drop your TradeTrust demo document to view its content</h4>
           <p className="my-6">Or</p>
-          <Button className="bg-cerulean text-white hover:bg-cerulean-500" size={ButtonSize.SM}>
+          <Button className="bg-cerulean-500 text-white hover:bg-cerulean-800" size={ButtonSize.SM}>
             Select Demo Document
           </Button>
         </div>
@@ -103,8 +104,8 @@ export const MagicDropzone: FunctionComponent = () => {
             const json = JSON.parse(reader.result as string);
             dispatch(updateDemoDocument(json)); // pushes to `/viewer` page
             gaEvent({
-              action: "magic_demo_file_drop",
-              category: "magic_demo",
+              action: GaAction.MAGIC_FILE_DROP,
+              category: GaCategory.MAGIC_DEMO,
             });
           } catch (e) {
             console.log(e);
@@ -123,14 +124,20 @@ export const MagicDropzone: FunctionComponent = () => {
   });
 
   const customStyle = useMemo(() => {
-    return getDropzoneBoxUi({ isDragReject, isDragActive, isDragAccept, isVerificationPending, isVerificationError });
+    return getDropzoneBoxUi({
+      isDragReject,
+      isDragActive,
+      isDragAccept,
+      isVerificationPending,
+      isVerificationError,
+    });
   }, [isDragReject, isDragActive, isDragAccept, isVerificationPending, isVerificationError]);
 
   return (
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       <div
-        className={`border-2 border-dashed rounded-xl text-center relative p-8 min-h-400 flex flex-col justify-center ${customStyle}`}
+        className={`border-2 border-dashed rounded-xl text-center relative p-8 min-h-[400px] flex flex-col justify-center ${customStyle}`}
       >
         <MagicDropzoneView
           isPending={isVerificationPending}

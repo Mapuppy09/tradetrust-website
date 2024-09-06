@@ -4,7 +4,7 @@ import {
   OverlayContext,
   showDocumentTransferMessage,
   LoaderSpinner,
-} from "@govtechsg/tradetrust-ui-components";
+} from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import { FormState } from "../../../../../constants/FormState";
 import { isEthereumAddress } from "../../../../../utils";
@@ -82,7 +82,7 @@ export const TransferHolderForm: FunctionComponent<TransferHolderProps> = ({
             newValue={newHolder}
             isEditable={isEditable}
             onSetNewValue={setNewHolder}
-            error={holderTransferringState === FormState.ERROR}
+            isError={holderTransferringState === FormState.ERROR}
           />
         </div>
       </div>
@@ -91,7 +91,7 @@ export const TransferHolderForm: FunctionComponent<TransferHolderProps> = ({
           <div className="flex flex-wrap">
             <div className="w-auto">
               <Button
-                className="bg-white rounded-xl text-lg py-2 px-3 border-cloud-100 text-cloud-900 shadow-none hover:bg-cloud-200"
+                className="bg-white rounded-xl text-lg py-2 px-3 border-cloud-100 text-cloud-800 shadow-none hover:bg-cloud-200"
                 onClick={setFormActionNone}
                 disabled={isPendingConfirmation}
                 data-testid={"cancelTransferBtn"}
@@ -101,7 +101,7 @@ export const TransferHolderForm: FunctionComponent<TransferHolderProps> = ({
             </div>
             <div className="w-auto ml-2">
               <Button
-                className="bg-cerulean rounded-xl text-lg text-white py-2 px-3 shadow-none hover:bg-cerulean-300"
+                className="bg-cerulean-500 rounded-xl text-lg text-white py-2 px-3 shadow-none hover:bg-cerulean-800"
                 disabled={!isValidTransfer() || isPendingConfirmation}
                 onClick={() => handleTransfer(newHolder)}
                 data-testid={"transferBtn"}

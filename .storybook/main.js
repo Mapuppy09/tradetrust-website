@@ -7,6 +7,7 @@ const toPath = (_path) => path.join(process.cwd(), _path);
 
 module.exports = {
   stories: ["../src/**/*.stories.@(tsx)"],
+  staticDirs: ["../public"],
   addons: [
     "@storybook/addon-essentials",
     {
@@ -17,23 +18,40 @@ module.exports = {
         },
       },
     },
+    "@storybook/addon-webpack5-compiler-babel",
   ],
+
   typescript: {
     reactDocgen: "react-docgen", // once react-docgen-typescript v2 in included in storybook, remove this config
   },
-  webpackFinal: (config) => {
-    return {
-      ...config,
-      // https://github.com/storybookjs/storybook/issues/13277#issuecomment-751747964
-      resolve: {
-        ...config.resolve,
-        alias: {
-          ...config.resolve.alias,
-          "@emotion/core": toPath("node_modules/@emotion/react"),
-          "@emotion/styled": toPath("node_modules/@emotion/styled"),
-          "emotion-theming": toPath("node_modules/@emotion/react"),
-        },
+
+  webpackFinal: async (config) => {
+    // need to include this web-did-resolver module into babel-loader to convert it from using esm to commonjs
+    const directoryPath = path.resolve(__dirname).replace(".storybook", "");
+
+    config.module.rules.push({
+      test: /\.(ts|js)x?$/,
+      include: [directoryPath, directoryPath.concat("node_modules/web-did-resolver")],
+      use: {
+        loader: "babel-loader",
       },
+    });
+    config.resolve.fallback = {
+      os: require.resolve("os-browserify/browser"),
+      crypto: require.resolve("crypto-browserify"),
+      stream: require.resolve("stream-browserify"),
+      vm: require.resolve("vm-browserify"),
+      path: require.resolve("path-browserify"),
     };
+    return config;
+  },
+
+  framework: {
+    name: "@storybook/react-webpack5",
+    options: {},
+  },
+
+  docs: {
+    autodocs: true,
   },
 };

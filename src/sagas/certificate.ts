@@ -8,11 +8,11 @@ import {
 } from "../reducers/certificate";
 import { processQrCode } from "../services/qrProcessor";
 import { verifyDocument } from "../services/verify";
-import { isValid } from "@govtechsg/oa-verify";
+import { isValid } from "@tradetrust-tt/tt-verify";
 import { decryptString } from "@govtechsg/oa-encryption";
-import { NETWORK_NAME } from "../config";
 import { history } from "../history";
-import { CONSTANTS } from "@govtechsg/tradetrust-utils";
+import { CONSTANTS } from "@tradetrust-tt/tradetrust-utils";
+import { ActionPayload } from "./../types";
 
 const { trace } = getLogger("saga:certificate");
 
@@ -30,7 +30,7 @@ export function* verifyCertificate(): any {
 
     // Instead of success/failure, report completeness
     yield put(verifyingCertificateCompleted(verificationStatus));
-    if (NETWORK_NAME === "local" ? true : isValid(verificationStatus)) {
+    if (isValid(verificationStatus)) {
       yield history.push("/viewer");
     }
   } catch (e) {
@@ -52,20 +52,21 @@ export function* handleQrScanned({ payload: qrCode }: { type: string; payload: a
   }
 }
 
-export function* retrieveCertificateByAction({
-  payload: { uri, key: payloadKey },
-  anchor: { key: anchorKey },
-}: {
+interface RetrieveCertificateByAction {
   type: string;
-  payload: { uri: any; key: any };
-  anchor: { key: any };
-}): any {
+  payload: ActionPayload;
+  anchor: { key: string };
+}
+
+export function* retrieveCertificateByAction({ payload, anchor }: RetrieveCertificateByAction): any {
   try {
     yield put({
       type: types.RETRIEVE_CERTIFICATE_BY_ACTION_PENDING,
     });
 
-    const key = anchorKey || payloadKey;
+    const { uri, key: payloadKey } = payload;
+    const { key: anchorKey } = anchor;
+    const key = anchorKey || payloadKey; // https://github.com/TradeTrust/tradetrust-website/pull/397
 
     // if a key has been provided, let's assume
     let certificate = yield window.fetch(uri).then((response) => {

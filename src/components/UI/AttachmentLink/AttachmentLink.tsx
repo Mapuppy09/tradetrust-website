@@ -41,7 +41,7 @@ export const getExtension = (mimeType: string | undefined): React.ReactNode => {
     default:
       return (
         <div
-          className="w-12 h-12 bg-gray-200 text-gray-700 p-2 rounded-full flex items-center"
+          className="w-12 h-12 bg-cloud-100 text-cloud-800 p-2 rounded-full flex items-center"
           data-testid={`attachment-icon-paperclip`}
         >
           <Paperclip className="m-auto" />
@@ -92,7 +92,7 @@ export const AttachmentLink: FunctionComponent<AttachmentLinkProps> = ({ filenam
         <div className="w-auto mr-4">{getExtension(type)}</div>
         <div className="w-5/6">
           <p className="mb-2 break-all">
-            <span className="transition duration-300 ease-out leading-5 text-cloud-500 break-words font-bold mr-1">
+            <span className="transition duration-300 ease-out leading-5 text-cloud-500 break-words font-gilroy-bold mr-1">
               {filename}
             </span>
             {hasBase64 && <span className="font-normal text-cloud-500 text-sm">({filesize})</span>}
@@ -103,7 +103,7 @@ export const AttachmentLink: FunctionComponent<AttachmentLinkProps> = ({ filenam
                 href={downloadHref}
                 download={`${filename}`}
                 data-testid="attachment-download-link"
-                className="text-cerulean-200 font-bold hover:underline"
+                className="text-cerulean-300 font-gilroy-bold hover:underline"
               >
                 Download
               </a>
@@ -114,7 +114,7 @@ export const AttachmentLink: FunctionComponent<AttachmentLinkProps> = ({ filenam
                   onClick={() => {
                     openTab(data);
                   }}
-                  className="text-cerulean-200 hover:underline"
+                  className="text-cerulean-300 hover:underline"
                   data-testid="attachment-open-link"
                 >
                   Open

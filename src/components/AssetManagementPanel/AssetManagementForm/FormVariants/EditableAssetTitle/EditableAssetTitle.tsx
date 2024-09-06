@@ -1,4 +1,4 @@
-import { OverlayAddressBook, ButtonIcon, useOverlayContext, Input } from "@govtechsg/tradetrust-ui-components";
+import { OverlayAddressBook, ButtonIcon, useOverlayContext, Input } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent } from "react";
 import { Book } from "react-feather";
 import { NETWORK_NAME } from "../../../../../config";
@@ -12,7 +12,7 @@ interface EditableAssetTitleProps {
   isEditable: boolean;
   newValue?: string;
   onSetNewValue?: (newValue: string) => void;
-  error?: boolean;
+  isError?: boolean;
 }
 
 export const EditableAssetTitle: FunctionComponent<EditableAssetTitleProps> = ({
@@ -21,7 +21,7 @@ export const EditableAssetTitle: FunctionComponent<EditableAssetTitleProps> = ({
   newValue,
   isEditable,
   onSetNewValue,
-  error,
+  isError: error,
 }) => {
   const { showOverlay } = useOverlayContext();
 
@@ -57,14 +57,14 @@ export const EditableAssetTitle: FunctionComponent<EditableAssetTitleProps> = ({
             hasError={error}
           />
           {error && (
-            <div className="text-rose my-2" data-testid="error-msg">
+            <div className="text-scarlet-500 my-2" data-testid="error-msg">
               Unidentified address. Please check and input again.
             </div>
           )}
         </div>
         <div className="w-auto">
           <ButtonIcon className="bg-white rounded-xl border-cloud-100 hover:bg-cloud-100" onClick={onOverlayHandler}>
-            <Book className="text-cerulean" />
+            <Book className="text-cerulean-500" />
           </ButtonIcon>
         </div>
       </div>

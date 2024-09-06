@@ -4,47 +4,36 @@ import {
   OverlayContext,
   showDocumentTransferMessage,
   LoaderSpinner,
-} from "@govtechsg/tradetrust-ui-components";
+} from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useContext, useEffect } from "react";
-import { useEndorsementChain } from "../../../../../common/hooks/useEndorsementChain";
 import { FormState } from "../../../../../constants/FormState";
-import { TitleEscrowEvent } from "../../../../../types";
 import { TagBorderedLg } from "../../../../UI/Tag";
 import { AssetInformationPanel } from "../../../AssetInformationPanel";
 import { AssetManagementActions } from "../../../AssetManagementActions";
 import { AssetManagementTitle } from "../../AssetManagementTitle";
 
 interface RejectSurrenderedFormProps {
-  tokenId: string;
   formAction: AssetManagementActions;
   tokenRegistryAddress: string;
   beneficiary?: string;
   holder?: string;
   setFormActionNone: () => void;
   setShowEndorsementChain: (payload: boolean) => void;
-  handleRestoreToken: (lastBeneficiary?: string, lastHolder?: string) => void;
+  handleRestoreToken: () => void;
   restoreTokenState: string;
 }
 
 export const RejectSurrenderedForm: FunctionComponent<RejectSurrenderedFormProps> = ({
-  tokenId,
   formAction,
   tokenRegistryAddress,
+  beneficiary,
+  holder,
   setFormActionNone,
   setShowEndorsementChain,
   handleRestoreToken,
   restoreTokenState,
 }) => {
   const { showOverlay } = useContext(OverlayContext);
-  const { endorsementChain, pending } = useEndorsementChain(tokenRegistryAddress, tokenId);
-
-  const lastTransferEvent = endorsementChain
-    ?.filter(({ eventType }) => eventType === "Transfer")
-    .reverse()[0] as TitleEscrowEvent;
-  const lastBeneficiary = lastTransferEvent?.beneficiary;
-  const lastHolderEvent = lastTransferEvent?.holderChangeEvents.reverse()[0];
-  const lastHolder = lastHolderEvent?.holder;
-
   const isRestoreTokenPendingConfirmation = restoreTokenState === FormState.PENDING_CONFIRMATION;
   const isRestoreTokenConfirmed = restoreTokenState === FormState.CONFIRMED;
 
@@ -52,10 +41,10 @@ export const RejectSurrenderedForm: FunctionComponent<RejectSurrenderedFormProps
     showOverlay(
       showDocumentTransferMessage(MessageTitle.CONFIRM_REJECT_SURRENDER_DOCUMENT, {
         isSuccess: true,
-        beneficiaryAddress: lastBeneficiary || "Loading...",
-        holderAddress: lastHolder || "Loading...",
+        beneficiaryAddress: beneficiary,
+        holderAddress: holder,
         isConfirmationMessage: true,
-        onConfirmationAction: () => handleRestoreToken(lastBeneficiary, lastHolder),
+        onConfirmationAction: () => handleRestoreToken(),
       })
     );
   };
@@ -84,7 +73,7 @@ export const RejectSurrenderedForm: FunctionComponent<RejectSurrenderedFormProps
           </div>
           <div className="w-full lg:w-auto self-end">
             <div className="py-4">
-              <TagBorderedLg id="surrender-sign" className="bg-white rounded-xl text-rose border-rose">
+              <TagBorderedLg id="surrender-sign" className="bg-white rounded-xl text-scarlet-500 border-scarlet-500">
                 <h3 className="text-4xl">Surrendered To Issuer</h3>
               </TagBorderedLg>
             </div>
@@ -95,7 +84,7 @@ export const RejectSurrenderedForm: FunctionComponent<RejectSurrenderedFormProps
             <div className="flex flex-wrap">
               <div className="w-auto">
                 <Button
-                  className="bg-white rounded-xl text-lg py-2 px-3text-lg py-2 px-3 border-cloud-100 text-cloud-900 shadow-none hover:bg-cloud-200"
+                  className="bg-white rounded-xl text-lg py-2 px-3text-lg py-2 px-3 border-cloud-100 text-cloud-800 shadow-none hover:bg-cloud-200"
                   onClick={setFormActionNone}
                   disabled={isRestoreTokenPendingConfirmation}
                   data-testid={"cancelSurrenderBtn"}
@@ -105,12 +94,12 @@ export const RejectSurrenderedForm: FunctionComponent<RejectSurrenderedFormProps
               </div>
               <div className="w-auto ml-2">
                 <Button
-                  className="bg-rose text-white rounded-xl text-lg py-2 px-3 shadow-none hover:bg-rose-400"
+                  className="bg-scarlet-500 text-white rounded-xl text-lg py-2 px-3 shadow-none hover:bg-scarlet-400"
                   onClick={onClickRejectSurrender}
-                  disabled={isRestoreTokenPendingConfirmation || pending}
+                  disabled={isRestoreTokenPendingConfirmation}
                   data-testid={"rejectSurrenderBtn"}
                 >
-                  {isRestoreTokenPendingConfirmation || pending ? (
+                  {isRestoreTokenPendingConfirmation ? (
                     <LoaderSpinner data-testid={"reject-loader"} />
                   ) : (
                     <>Reject Document</>

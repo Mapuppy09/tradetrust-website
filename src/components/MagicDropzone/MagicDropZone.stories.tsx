@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { MemoryRouter as Router } from "react-router-dom";
-import { v2, wrapDocument } from "@govtechsg/open-attestation";
+import { v2, wrapDocument } from "@tradetrust-tt/tradetrust";
 import { MagicDropzone } from "./MagicDropzone";
 import { configureStore } from "../../store";
 import {
@@ -11,7 +11,7 @@ import {
   whenDocumentIssuerIdentityInvalidDnsTxt,
   whenDocumentRevoked,
 } from "../../test/fixture/verifier-responses";
-import { CONSTANTS } from "@govtechsg/tradetrust-utils";
+import { CONSTANTS } from "@tradetrust-tt/tradetrust-utils";
 
 const { TYPES } = CONSTANTS;
 

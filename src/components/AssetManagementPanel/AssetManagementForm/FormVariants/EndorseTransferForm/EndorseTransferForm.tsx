@@ -4,9 +4,10 @@ import {
   OverlayContext,
   showDocumentTransferMessage,
   LoaderSpinner,
-} from "@govtechsg/tradetrust-ui-components";
-import React, { FunctionComponent, useContext, useEffect } from "react";
+} from "@tradetrust-tt/tradetrust-ui-components";
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import { FormState } from "../../../../../constants/FormState";
+import { isValidEndorseTransfer } from "../../../../../utils";
 import { AssetInformationPanel } from "../../../AssetInformationPanel";
 import { AssetManagementActions } from "../../../AssetManagementActions";
 import { AssetManagementTitle } from "../../AssetManagementTitle";
@@ -15,10 +16,9 @@ import { EditableAssetTitle } from "./../EditableAssetTitle";
 interface EndorseTransferFormProps {
   formAction: AssetManagementActions;
   tokenRegistryAddress: string;
-  approvedBeneficiary?: string;
-  approvedHolder?: string;
+  holder?: string;
   handleEndorseTransfer: (approvedBeneficiary: string, approvedHolder: string) => void;
-  transferToNewEscrowState: string;
+  transferOwnersState: string;
   setFormActionNone: () => void;
   setShowEndorsementChain: (payload: boolean) => void;
 }
@@ -26,15 +26,18 @@ interface EndorseTransferFormProps {
 export const EndorseTransferForm: FunctionComponent<EndorseTransferFormProps> = ({
   formAction,
   tokenRegistryAddress,
-  approvedBeneficiary,
-  approvedHolder,
+  holder,
   handleEndorseTransfer,
-  transferToNewEscrowState,
+  transferOwnersState,
   setFormActionNone,
   setShowEndorsementChain,
 }) => {
-  const isPendingConfirmation = transferToNewEscrowState === FormState.PENDING_CONFIRMATION;
-  const isConfirmed = transferToNewEscrowState === FormState.CONFIRMED;
+  const [newHolder, setNewHolder] = useState(holder || "");
+  const [newOwner, setNewOwner] = useState(holder || ""); // Can only use this when owner is holder
+  const isPendingConfirmation = transferOwnersState === FormState.PENDING_CONFIRMATION;
+  const isConfirmed = transferOwnersState === FormState.CONFIRMED;
+  const isEditable =
+    transferOwnersState !== FormState.PENDING_CONFIRMATION && transferOwnersState !== FormState.CONFIRMED;
 
   const { showOverlay } = useContext(OverlayContext);
 
@@ -43,13 +46,13 @@ export const EndorseTransferForm: FunctionComponent<EndorseTransferFormProps> = 
       showOverlay(
         showDocumentTransferMessage(MessageTitle.ENDORSE_TRANSFER_SUCCESS, {
           isSuccess: true,
-          beneficiaryAddress: approvedBeneficiary,
-          holderAddress: approvedHolder,
+          beneficiaryAddress: newOwner,
+          holderAddress: newHolder,
         })
       );
       setFormActionNone();
     }
-  }, [isConfirmed, approvedHolder, approvedBeneficiary, showOverlay, setFormActionNone]);
+  }, [isConfirmed, newOwner, newHolder, showOverlay, setFormActionNone]);
 
   return (
     <>
@@ -66,10 +69,24 @@ export const EndorseTransferForm: FunctionComponent<EndorseTransferFormProps> = 
           />
         </div>
         <div className="w-full px-4 lg:w-1/3">
-          <EditableAssetTitle role="Owner" value={approvedBeneficiary} isEditable={false} />
+          <EditableAssetTitle
+            role="Owner"
+            value={holder}
+            newValue={newOwner}
+            isEditable={isEditable}
+            onSetNewValue={setNewOwner}
+            isError={transferOwnersState === FormState.ERROR}
+          />
         </div>
         <div className="w-full px-4 lg:w-1/3">
-          <EditableAssetTitle role="Holder" value={approvedHolder} isEditable={false} />
+          <EditableAssetTitle
+            role="Holder"
+            value={holder}
+            newValue={newHolder}
+            isEditable={isEditable}
+            onSetNewValue={setNewHolder}
+            isError={transferOwnersState === FormState.ERROR}
+          />
         </div>
       </div>
       <div className="flex flex-wrap pb-4">
@@ -77,7 +94,7 @@ export const EndorseTransferForm: FunctionComponent<EndorseTransferFormProps> = 
           <div className="flex flex-wrap">
             <div className="w-auto">
               <Button
-                className="bg-white rounded-xl text-lg py-2 px-3 border-cloud-100 text-cloud-900 shadow-none hover:bg-cloud-200"
+                className="bg-white rounded-xl text-lg py-2 px-3 border-cloud-100 text-cloud-800 shadow-none hover:bg-cloud-200"
                 onClick={setFormActionNone}
                 disabled={isPendingConfirmation}
               >
@@ -86,9 +103,11 @@ export const EndorseTransferForm: FunctionComponent<EndorseTransferFormProps> = 
             </div>
             <div className="w-auto ml-2">
               <Button
-                className="bg-cerulean rounded-xl text-lg text-white py-2 px-3 shadow-none hover:bg-cerulean-300"
-                onClick={() => handleEndorseTransfer(approvedBeneficiary || "", approvedHolder || "")}
-                disabled={isPendingConfirmation}
+                className="bg-cerulean-500 rounded-xl text-lg text-white py-2 px-3 shadow-none hover:bg-cerulean-800"
+                disabled={!isValidEndorseTransfer(holder, newHolder, newOwner) || isPendingConfirmation}
+                onClick={() => {
+                  handleEndorseTransfer(newOwner || "", newHolder || "");
+                }}
                 data-testid={"endorseTransferBtn"}
               >
                 {isPendingConfirmation ? <LoaderSpinner data-testid={"loader"} /> : <>Endorse Transfer</>}

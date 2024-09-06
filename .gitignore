@@ -12,3 +12,10 @@ yarn.lock
 /docs
 /src/index.css
 /workflow
+/artifacts
+/tests/e2e/screenshots
+/tests/e2e/videos
+.lighthouseci
+lighthouseReport
+/public/static/sitemap.xml
+.env

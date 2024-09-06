@@ -7,12 +7,12 @@ const IframeBlock = Selector("#iframe");
 
 const PrivacyFilterButton = Selector("#privacySwitch");
 const CertificateSection = Selector("#rendered-certificate");
-const ExporterObfuscationButton = Selector(".fa-minus-circle").nth(0);
+const ExporterObfuscationButton = Selector(".rounded-full.cursor-pointer").nth(0); // selected div is from template renderer itself
 
 test("Fields on a document can be hidden", async (t) => {
   await navigateToVerify();
-  await uploadDocument("./fixture/coo-selective-disclosure.json");
-  await validateIssuerTexts(["DEMO-TRADETRUST.OPENATTESTATION.COM"]);
+  await uploadDocument("./fixture/local/v2/coo-selective-disclosure.json");
+  await validateIssuerTexts(["EXAMPLE.TRADETRUST.IO"]);
 
   await t.switchToIframe(IframeBlock);
 

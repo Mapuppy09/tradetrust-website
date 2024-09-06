@@ -8,7 +8,7 @@ import { ChevronLeft, ExternalLink, PlayCircle, Download } from "react-feather";
 import { Page } from "../../../components/Layout/Page";
 import { isFuture, format } from "date-fns";
 import { formatTime } from "../../../common/utils/dateTime";
-import { LinkButton } from "@govtechsg/tradetrust-ui-components";
+import { LinkButton } from "@tradetrust-tt/tradetrust-ui-components";
 import ReactMarkdown from "react-markdown";
 import { getFileName } from "../../../utils";
 
@@ -48,22 +48,22 @@ export const EventPageDetail: FunctionComponent = () => {
         <meta property="og:url" content={`${window.location.origin}${locationPath.pathname}`} />
         <title>TradeTrust - {title}</title>
       </Helmet>
-      <Page title="Event">
+      <Page>
         <div className="flex my-4">
           <div className="w-auto">
-            <Link to="/event" className="text-gray-800 flex flex-nowrap items-center">
+            <Link to="/event" className="text-cloud-800 flex flex-nowrap items-center">
               <ChevronLeft />
-              <span>Back</span>
+              <h5>Back</h5>
             </Link>
           </div>
         </div>
         <div className="w-full lg:w-9/12">
-          <div className="bg-white text-gray-600 shadow-lg rounded-lg p-8">
-            <h2 className="font-medium lg:font-bold text-4xl mb-6 lg:mb-10">{title}</h2>
-            {thumbnail && <img className="object-cover w-full h-96 mb-10" src={thumbnail} />}
+          <div className="bg-white text-cloud-800 drop-shadow-xl rounded-xl p-8">
+            <h2 className="mb-6 lg:mb-10">{title}</h2>
+            {thumbnail && <img className=" mb-10" src={thumbnail} />}
             <div className="flex flex-col-reverse lg:flex-row">
-              <div className="border-r border-cloud-100 border-solid w-full lg:w-2/6 mt-4 lg:mt-0">
-                <div className="font-bold">Event Date and Time</div>
+              <div className="border-r border-cloud-200 border-solid w-full lg:w-2/6 mt-4 lg:mt-0">
+                <h5>Event Date and Time</h5>
                 <div>{format(new Date(date), "d MMM yyyy")}</div>
                 {timeStart && timeEnd && (
                   <span>
@@ -72,7 +72,7 @@ export const EventPageDetail: FunctionComponent = () => {
                 )}
                 {location && (
                   <>
-                    <div className="font-bold">Location</div>
+                    <div className="font-gilroy-bold">Location</div>
                     <div className="lg:w-4/6">{location}</div>
                   </>
                 )}
@@ -80,7 +80,7 @@ export const EventPageDetail: FunctionComponent = () => {
                   {videoLink && (
                     <div className="w-full sm:w-auto mb-2 sm:mb-0">
                       <a
-                        className="text-lg text-cerulean-200 font-medium hover:text-cerulean-300 inline-block pr-4 cursor-pointer"
+                        className="text-lg text-cerulean-300 font-medium hover:text-cerulean-500 inline-block pr-4 cursor-pointer"
                         href={videoLink}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -90,14 +90,14 @@ export const EventPageDetail: FunctionComponent = () => {
                           <div className="w-auto">
                             <PlayCircle />
                           </div>
-                          <div className="flex-grow px-2">Watch Event</div>
+                          <h5 className="flex-grow px-2">Watch Event</h5>
                         </div>
                       </a>
                     </div>
                   )}
                   <div className="w-full sm:w-auto mb-2 sm:mb-0 mt-4">
                     <a
-                      className="text-lg text-cerulean-200 font-medium hover:text-cerulean-300 inline-block pr-4"
+                      className="text-lg text-cerulean-300 font-medium hover:text-cerulean-500 inline-block pr-4"
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -107,7 +107,7 @@ export const EventPageDetail: FunctionComponent = () => {
                         <div className="w-auto">
                           <ExternalLink />
                         </div>
-                        <div className="flex-grow px-2">Event Link</div>
+                        <h5 className="flex-grow px-2">Event Link</h5>
                       </div>
                     </a>
                   </div>
@@ -115,7 +115,7 @@ export const EventPageDetail: FunctionComponent = () => {
                   {slides && (
                     <div className="w-full sm:w-auto mb-2 sm:mb-0 mt-4">
                       <a
-                        className="text-lg text-cerulean-200 font-medium hover:text-cerulean-300 inline-block pr-4 cursor-pointer"
+                        className="text-lg text-cerulean-300 font-medium hover:text-cerulean-500 inline-block pr-4 cursor-pointer"
                         href={slides}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -125,7 +125,7 @@ export const EventPageDetail: FunctionComponent = () => {
                           <div className="w-auto">
                             <ExternalLink />
                           </div>
-                          <div className="flex-grow px-2">Event Slides</div>
+                          <h5 className="flex-grow px-2">Event Slides</h5>
                         </div>
                       </a>
                     </div>
@@ -138,7 +138,7 @@ export const EventPageDetail: FunctionComponent = () => {
                       return (
                         <div key={`downloadableContent-${index}`} className="w-full sm:w-auto mb-2 sm:mb-0 mt-4">
                           <a
-                            className="text-lg text-cerulean-200 font-medium hover:text-cerulean-300 inline-block pr-4 cursor-pointer"
+                            className="text-lg text-cerulean-300 font-medium hover:text-cerulean-500 inline-block pr-4 cursor-pointer"
                             href={downloadableContent}
                             download
                             data-testid={`downloadableContent-${index}`}
@@ -147,7 +147,7 @@ export const EventPageDetail: FunctionComponent = () => {
                               <div className="w-auto">
                                 <Download />
                               </div>
-                              <div className="flex-grow px-2">{fileName}</div>
+                              <h5 className="flex-grow px-2">{fileName}</h5>
                             </div>
                           </a>
                         </div>

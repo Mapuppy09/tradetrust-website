@@ -26,14 +26,73 @@ export const getChainInfoFromNetworkName = (networkName: string): ChainInfoObjec
   return res;
 };
 
+export const getSupportedChainIds = (): ChainId[] => {
+  const isLocal = window.location.host.indexOf("localhost") > -1;
+  const isTestEnv = process.env.NODE_ENV === "test";
+  const networks = IS_DEVELOPMENT ? [...TEST_NETWORKS] : [...MAIN_NETWORKS];
+  if (isTestEnv || isLocal) networks.push(ChainId.Local);
+  return networks;
+};
+
 /**
  * Returns an array of supported chain info based on the environment type.
  * Will include local chain if site is running under test or localhost environment.
  */
 export const getSupportedChainInfo = (): ChainInfoObject[] => {
-  const isLocal = window.location.host.indexOf("localhost") > -1;
-  const isTestEnv = process.env.NODE_ENV === "test";
-  const networks = IS_DEVELOPMENT ? [...TEST_NETWORKS] : [...MAIN_NETWORKS];
-  if (isTestEnv || isLocal) networks.push(ChainId.Local);
+  const networks = getSupportedChainIds();
   return networks.map((chainId) => getChainInfo(chainId));
+};
+
+/**
+ * Switches the network in user's wallet if installed.
+ * @param chainId Chain ID of target network
+ */
+export const walletSwitchChain = async (chainId: ChainId): Promise<void> => {
+  const { ethereum } = window;
+  if (!ethereum || !ethereum.request) return;
+  try {
+    await ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: `0x${(+chainId).toString(16)}` }],
+    });
+  } catch (e: any) {
+    if (e.code === -32601) {
+      // Possibly on localhost which doesn't support the call
+      return console.error(e);
+    }
+    if (e.code === 4902) {
+      return walletAddChain(chainId);
+    }
+    throw e;
+  }
+};
+
+/**
+ * Adds network to user's wallet.
+ * Networks with no RPC URL provided will not be added, particularly the default chains that already comes with Metamask.
+ * @param chainId Chain ID of target network
+ */
+export const walletAddChain = async (chainId: ChainId): Promise<void> => {
+  const { ethereum } = window;
+  if (!ethereum || !ethereum.request) return;
+  const chainInfo = ChainInfo[chainId];
+  const rpcUrl = chainInfo.rpcUrl;
+  if (!rpcUrl) return;
+  try {
+    await ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: `0x${(+chainId).toString(16)}`,
+          chainName: chainInfo.networkLabel,
+          nativeCurrency: chainInfo.nativeCurrency,
+          blockExplorerUrls: [chainInfo.explorerUrl],
+          rpcUrls: [rpcUrl],
+        },
+      ],
+    });
+  } catch (e) {
+    console.error(`Network ${chainId.toString()} could not be added.`, e);
+    throw e;
+  }
 };

@@ -1,4 +1,4 @@
-import { Button, Input, OverlayContext } from "@govtechsg/tradetrust-ui-components";
+import { Button, Input, OverlayContext } from "@tradetrust-tt/tradetrust-ui-components";
 import React, { FunctionComponent, useContext, useState } from "react";
 import { Checkbox } from "../../UI/Checkbox";
 import { useHistory } from "react-router-dom";
@@ -48,8 +48,8 @@ export const DemoInitial: FunctionComponent = () => {
             To start using the demo, please key in your email address to create a free temporary cryptocurrency wallet.
           </p>
           <p>
-            Please take note that <span className="font-bold">all documents</span> created from this demo{" "}
-            <span className="font-bold"> can only be recognise via this demo</span>
+            Please take note that <span className="font-gilroy-bold">all documents</span> created from this demo{" "}
+            <span className="font-gilroy-bold"> can only be recognised via this demo</span>
           </p>
         </div>
       </div>
@@ -66,7 +66,7 @@ export const DemoInitial: FunctionComponent = () => {
           </p>
         </Checkbox>
       </div>
-      <Button className="bg-cerulean text-white mt-8 hover:bg-cerulean-300">
+      <Button className="bg-cerulean-500 text-white mt-8 hover:bg-cerulean-800">
         <h5>Submit</h5>
       </Button>
     </form>

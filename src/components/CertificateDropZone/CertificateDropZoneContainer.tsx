@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@govtechsg/tradetrust-ui-components";
+import { Button } from "@tradetrust-tt/tradetrust-ui-components";
 import { useDispatch } from "react-redux";
 import { processQrCode } from "../../reducers/certificate";
 import QrReader, { QrDataType } from "../QrReader/qrReader";
@@ -27,7 +27,7 @@ export const CertificateDropZoneContainer = (): React.ReactElement => {
     <>
       <QrReader handleQrScanned={handleQrScanned} />
       <div className="py-2 text-center">
-        <Button className="bg-cerulean text-white hover:bg-cerulean-500" onClick={toggleQrReaderVisible}>
+        <Button className="bg-cerulean-500 text-white hover:bg-cerulean-800" onClick={toggleQrReaderVisible}>
           {DisableMessage}
         </Button>
       </div>

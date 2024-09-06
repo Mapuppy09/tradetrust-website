@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { OverlayContent, Button } from "@govtechsg/tradetrust-ui-components";
+import { OverlayContent, Button } from "@tradetrust-tt/tradetrust-ui-components";
 
 interface ModalNavigateOutProps {
   closeModal: () => void;
@@ -20,7 +20,7 @@ export const ModalNavigateOut: FunctionComponent<ModalNavigateOutProps> = ({
   }, [setOnNavigateOut]);
 
   return (
-    <OverlayContent title="" className="max-w-md px-6 pb-12 text-center">
+    <OverlayContent title="" className="bg-white max-w-md px-6 pb-12 text-center">
       <svg
         className="mx-auto mb-4"
         width="57"
@@ -51,10 +51,10 @@ export const ModalNavigateOut: FunctionComponent<ModalNavigateOutProps> = ({
       <h5 className="mb-8">
         You are about to navigate away from this demo, navigating away will result in the loss of input information
       </h5>
-      <Button onClick={closeModal} className="bg-white text-cerulean-500 hover:bg-gray-50 lg:mr-2">
+      <Button onClick={closeModal} className="bg-white text-cerulean-500 hover:bg-cloud-100 lg:mr-2">
         Back to demo
       </Button>
-      <Button onClick={closeModalAndNavigate} className="bg-cerulean text-white hover:bg-cerulean-500">
+      <Button onClick={closeModalAndNavigate} className="bg-cerulean-500 text-white hover:bg-cerulean-800">
         Navigate away
       </Button>
     </OverlayContent>

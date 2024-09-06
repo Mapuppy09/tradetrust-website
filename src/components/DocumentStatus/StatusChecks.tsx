@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
-import { VerificationFragment } from "@govtechsg/oa-verify";
-import { CONSTANTS, interpretFragments } from "@govtechsg/tradetrust-utils";
+import { VerificationFragment } from "@tradetrust-tt/tt-verify";
+import { CONSTANTS, interpretFragments } from "@tradetrust-tt/tradetrust-utils";
 import { StatusCheck } from "./StatusCheck";
 
 interface StatusChecksProps {

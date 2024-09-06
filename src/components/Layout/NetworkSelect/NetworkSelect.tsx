@@ -1,18 +1,12 @@
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownProps,
-  OverlayContext,
-  showDocumentTransferMessage,
-  IconError,
-} from "@govtechsg/tradetrust-ui-components";
-import React, { FunctionComponent, useContext } from "react";
+import { Dropdown, DropdownItem, DropdownProps, IconError } from "@tradetrust-tt/tradetrust-ui-components";
+import React, { FunctionComponent } from "react";
 import { ChainId, ChainInfoObject } from "../../../constants/chain-info";
 import { useProviderContext } from "../../../common/contexts/provider";
 import { getChainInfo } from "../../../common/utils/chain-utils";
+import { useNetworkSelect } from "../../../common/hooks/useNetworkSelect";
 
 interface NetworkSelectViewProps {
-  onChange: (network: ChainInfoObject) => void;
+  onChange: (chainId: ChainId) => void;
   currentChainId: ChainId | undefined;
   networks: ChainInfoObject[];
 }
@@ -34,7 +28,11 @@ const WrappedDropdown = (props: DropdownProps) => {
   const { children, className, ...rest } = props;
   return (
     <div className={className} style={{ minWidth: "12.5em" }}>
-      <Dropdown className="rounded-md py-1 pl-4 p-2 border border-gray-300 bg-white" {...rest}>
+      <Dropdown
+        className="rounded-md py-1 pl-4 p-2 border border-cloud-200 bg-white"
+        data-testid="network-selector"
+        {...rest}
+      >
         {children}
       </Dropdown>
     </div>
@@ -50,7 +48,7 @@ const DropdownItemLabel: FunctionComponent<DropdownItemLabelProps> = ({ classNam
       <div className="flex items-center" data-testid={`network-select-dropdown-label-${network.chainId}`}>
         <img className="mr-2 w-5 h-5 rounded-full" src={network.iconImage} alt={network.label} />
         <span className="w-full">{network.label}</span>
-        {active ? <span className="m-1 p-1 bg-emerald-500 rounded-lg justify-self-end" /> : null}
+        {active ? <span className="m-1 p-1 bg-forest-500 rounded-lg justify-self-end" /> : null}
       </div>
     </div>
   );
@@ -81,7 +79,7 @@ const NetworkSelectView: FunctionComponent<NetworkSelectViewProps> = ({ onChange
         network={network}
         active={network.chainId === currentChainId}
         onClick={() => {
-          if (onChange) onChange(network);
+          if (onChange) onChange(network.chainId);
         }}
       />
     );
@@ -116,19 +114,11 @@ const NetworkSelectView: FunctionComponent<NetworkSelectViewProps> = ({ onChange
 };
 
 export const NetworkSelect: FunctionComponent = () => {
-  const { changeNetwork, supportedChainInfoObjects, currentChainId } = useProviderContext();
-  const { showOverlay } = useContext(OverlayContext);
+  const { supportedChainInfoObjects, currentChainId } = useProviderContext();
+  const { switchNetwork } = useNetworkSelect();
 
-  const changeHandler = async (network: ChainInfoObject) => {
-    try {
-      await changeNetwork(network.chainId);
-    } catch (e: any) {
-      showOverlay(
-        showDocumentTransferMessage("You've cancelled changing network.", {
-          isSuccess: false,
-        })
-      );
-    }
+  const changeHandler = async (chainId: ChainId) => {
+    await switchNetwork(chainId);
   };
 
   return (

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { addClassNameIfExist } from "../../../utils";
 
-type headingTag = "h3" | "h5";
+type headingTag = "h3" | "h4";
 
 interface AccordionItemProps {
   classNameContainer?: string;
@@ -20,7 +20,7 @@ export const AccordionItem: FunctionComponent<AccordionItemProps> = ({
   classNameContainer,
   classNameCollapse,
   classNameContent,
-  headingTag = "h5",
+  headingTag = "h4",
   heading,
   divider = false,
   openIndex,
@@ -32,16 +32,18 @@ export const AccordionItem: FunctionComponent<AccordionItemProps> = ({
   return (
     <div className={`transition-color duration-200${addClassNameIfExist(` ${classNameContainer}`)}`}>
       <div
-        className={`flex justify-between items-center transition-colors duration-200 cursor-pointer hover:text-cerulean${
-          isOpen ? " text-cerulean" : ""
+        className={`flex justify-between items-center transition-colors duration-200 cursor-pointer hover:text-cerulean-500 ${
+          isOpen ? " text-cerulean-500" : ""
         }${addClassNameIfExist(` ${classNameCollapse}`)}`}
         onClick={() => setOpenIndex(isOpen ? -1 : accordionIndex)}
       >
         {headingTag === "h3" && <h3>{heading}</h3>}
-        {headingTag === "h5" && <h5>{heading}</h5>}
+        {headingTag === "h4" && <h4>{heading}</h4>}
         <svg
           data-testid="accordion-icon"
-          className={`transition-transform duration-200 ${isOpen ? " rotate-180" : " rotate-0"} min-w-min min-h-min`}
+          className={`transition-transform duration-200 ${
+            isOpen ? " rotate-180" : " rotate-0"
+          } min-w-[24px] min-h-[24px]`}
           width="24"
           height="24"
           viewBox="0 0 24 24"

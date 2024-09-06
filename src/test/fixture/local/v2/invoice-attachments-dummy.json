@@ -1,0 +1,79 @@
+{
+  "version": "https://schema.openattestation.com/2.0/schema.json",
+  "data": {
+    "$template": {
+      "type": "ff5174b7-124c-4c69-b2e7-375549303064:string:EMBEDDED_RENDERER",
+      "name": "7014e770-e700-4a79-ab53-c9b59a73af90:string:COVERING_LETTER",
+      "url": "bbea1323-b880-4cae-8c76-50e1cea4d3e7:string:https://generic-templates.tradetrust.io"
+    },
+    "issuers": [
+      {
+        "name": "1e1f8f0c-6201-4d8c-9aeb-5ef866f4a0ec:string:TradeTrust document store Local",
+        "documentStore": "ccde4390-54a5-43d4-9fb8-816dae69cfce:string:0x4Bf7E4777a8D1b6EdD5F2d9b8582e2817F0B0953",
+        "identityProof": {
+          "type": "8083f98a-1d91-40c1-b09d-d4630f0d19c6:string:DNS-TXT",
+          "location": "f2b22fe8-a116-48bd-84cf-eab6e491ec15:string:example.tradetrust.io"
+        }
+      }
+    ],
+    "name": "e46bf2c5-662b-47a0-b371-877e6cf2372b:string:Covering Letter",
+    "logo": "78185309-0915-4aef-bc82-7e4d5a70529f:string:https://pluspng.com/img-png/logo-dbs-png-file-dbs-bank-logo-svg-1280.png",
+    "backgroundColor": "d3304f4c-d10e-4d67-b65d-f3db7acafbfe:string:black",
+    "titleColor": "b988494d-94f1-4a5c-aa85-4abc46897a20:string:white",
+    "descriptionColor": "fb849565-129b-4917-86d0-cff59ecbdcea:string:white",
+    "title": "141cfa35-03bc-40ee-9776-8e228fc09a5b:string:Documents Bundle",
+    "description": "2d3ba055-bdf3-433e-a860-51fef7b8c3f9:string:Some very important documents in here for some submission",
+    "attachments": [
+      {
+        "data": "51879419-3643-4e1d-a34b-4f01c2e7e54f:string:aGVsbG8K",
+        "filename": "9b7f777e-15a4-4a73-8b49-89646b2262d1:string:longlonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglong.png",
+        "type": "da00eae5-ac3d-4fed-8b37-a21a9c26a5e5:string:image/png"
+      },
+      {
+        "data": "5e846d14-e1eb-4105-b2a4-ced59b3bc85e:string:aGVsbG8K",
+        "filename": "e0e2da61-16a5-4c8e-ae9e-a8c2b2622a8b:string:test.csv",
+        "type": "2f48dffe-3482-4a4d-b628-67fddc3a74d0:string:text/csv"
+      },
+      {
+        "data": "139ecf02-c060-48a5-bd47-f9768a6334ae:string:aGVsbG8K",
+        "filename": "aa3a4306-1ecc-4b6c-bac3-fbf45f7e1807:string:test.doc",
+        "type": "8e90e77d-1da7-4f21-aba9-45876b54a04c:string:application/msword"
+      },
+      {
+        "data": "c85a6b08-8912-41fd-af37-2d9c584b6401:string:aGVsbG8K",
+        "filename": "c49b74d9-6798-48ab-98ed-d70333fc2aea:string:test.docx",
+        "type": "efa9f245-f4ee-40ab-b89c-3d8c949b013c:string:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      },
+      {
+        "data": "c7297a15-d80a-48e0-b930-1c35dd9204d8:string:aGVsbG8K",
+        "filename": "42172c84-0a3e-48c8-8434-751b93d8fdf4:string:test.jpg",
+        "type": "6f32f3d9-eb8c-4c7d-ab0a-c6c1a0371a95:string:image/jpeg"
+      },
+      {
+        "data": "fc7d7a38-f9e0-4ef4-b51c-b4c725b821a7:string:aGVsbG8K",
+        "filename": "c15ecb28-0850-49c2-9e00-ee3e5481afb0:string:test.pdf",
+        "type": "7c0ce9f6-2e9d-4e1a-b7fe-9f319b96a41d:string:application/pdf"
+      },
+      {
+        "data": "fa5abb0d-5d7d-4629-a198-b894e554f851:string:aGVsbG8K",
+        "filename": "debaa105-8110-4a4f-8076-59f28c034fca:string:test.txt",
+        "type": "984c9693-cd7d-40d9-8466-f6712a215dc1:string:text/plain"
+      },
+      {
+        "data": "40a45b5e-97e4-4745-85c6-12c026c477c6:string:ewogICAgInRlc3QiOiAiaGVsbG8iCn0=",
+        "filename": "26716b39-cd7c-4a3d-9b99-05952fa99bc9:string:unidentified.json",
+        "type": "c3d03a33-14bc-4600-af0e-96b3e180cd64:string:application/json"
+      }
+    ],
+    "network": {
+      "chain": "a3f0aba1-af0f-4c0f-82b0-7d7a1220a1be:string:ETH",
+      "chainId": "87125ac3-9c60-4f6e-899b-31e8b042e91f:string:1337"
+    }
+  },
+  "signature": {
+    "type": "SHA3MerkleProof",
+    "targetHash": "4a3fecc833135c185618af09f80ba78a5a3547357253488f72c80da6174961bf",
+    "proof": [],
+    "merkleRoot": "4a3fecc833135c185618af09f80ba78a5a3547357253488f72c80da6174961bf"
+  }
+}

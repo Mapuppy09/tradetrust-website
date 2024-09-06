@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from "react";
 import { isFuture, isPast } from "date-fns";
 import { Helmet } from "react-helmet";
 import { ResourceEvent, EventProps } from "../../components/UI/ResourceEvent";
-import { Pagination, getPaginatedPosts, getPaginatedPagesTotal } from "@govtechsg/tradetrust-ui-components";
+import { Pagination, getPaginatedPosts, getPaginatedPagesTotal } from "@tradetrust-tt/tradetrust-ui-components";
 import { Page } from "../../components/Layout/Page";
 import { events } from ".";
 
@@ -36,18 +36,22 @@ export const EventPage: FunctionComponent = () => {
   return (
     <>
       <Helmet>
-        <meta property="description" content="These are media events which TradeTrust has been involved in." />
-        <meta property="og:description" content="These are media events which TradeTrust has been involved in." />
-        <meta property="og:title" content="TradeTrust - An easy way to check and verify your documents" />
+        <meta property="description" content="Check out TradeTrust's upcoming and past events." />
+        <meta property="og:description" content="Check out TradeTrust's upcoming and past events." />
+        <meta property="og:title" content="TradeTrust - Events" />
         <meta property="og:url" content={`${window.location.origin}/media`} />
         <title>TradeTrust - Events</title>
+        <meta
+          name="keywords"
+          content="Blockchain, NFT, Ethereum, Electronic Trade Document, Verifiable Document, Transferable Documents, Digital Trade Document, SWIFT Community Event, World CIO 200 APAC Singapore, TC307-Plenary, SWIFT at Sibos"
+        />
       </Helmet>
       <Page title="Event">
         <div className="mt-2 mb-1">
           {categories.map((item, index) => (
-            <h5
-              className={`text-cloud-300 hover:text-cloud-900 inline-block text-xl mr-4 cursor-pointer ${
-                item === category ? "text-cloud-900" : ""
+            <h4
+              className={`hover:text-cloud-800 inline-block mr-4 cursor-pointer ${
+                item === category ? "text-cloud-800" : "text-cloud-300"
               }`}
               key={index}
               data-testid="filter-category"
@@ -58,7 +62,7 @@ export const EventPage: FunctionComponent = () => {
               }}
             >
               {item}
-            </h5>
+            </h4>
           ))}
         </div>
         <div className="flex flex-wrap py-4 -mx-4">

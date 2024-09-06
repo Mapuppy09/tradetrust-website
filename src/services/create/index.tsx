@@ -1,9 +1,9 @@
 import { Signer, ContractTransaction, ContractReceipt } from "ethers";
-import { DocumentStoreFactory } from "@govtechsg/document-store";
+import { deployAndWait, connect } from "@tradetrust-tt/document-store";
 import { getLogger } from "../../utils/logger";
 import { IS_DEVELOPMENT } from "../../config";
-import { WrappedDocument } from "@govtechsg/open-attestation/dist/types/2.0/types";
-import { wrapDocument, v2 } from "@govtechsg/open-attestation";
+import { WrappedDocument } from "@tradetrust-tt/tradetrust/dist/types/2.0/types";
+import { wrapDocument, v2 } from "@tradetrust-tt/tradetrust";
 
 const { error } = getLogger("services:create");
 
@@ -15,7 +15,7 @@ export const publishDocument = async (
   const {
     signature: { targetHash },
   } = wrappedDocument;
-  const documentStore = DocumentStoreFactory.connect(documentStoreAddress, signer);
+  const documentStore = await connect(documentStoreAddress, signer);
   const contractTransaction: ContractTransaction = await documentStore.issue(`0x${targetHash}`);
   const contractReceipt: ContractReceipt = await contractTransaction.wait();
 
@@ -25,9 +25,7 @@ export const publishDocument = async (
 
 export const deployDocumentStore = async (signer: Signer, documentStoreName: string): Promise<string> => {
   try {
-    const factory = new DocumentStoreFactory(signer);
-    const documentStore = await factory.deploy(documentStoreName);
-    await documentStore.deployTransaction.wait();
+    const documentStore = await deployAndWait(documentStoreName, signer);
 
     return documentStore.address;
   } catch (e: any) {

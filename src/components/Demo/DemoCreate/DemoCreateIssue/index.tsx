@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useCallback, useContext, useEffect } from "react";
 import { saveAs } from "file-saver";
-import { Button, ProgressBar } from "@govtechsg/tradetrust-ui-components";
+import { Button, ProgressBar } from "@tradetrust-tt/tradetrust-ui-components";
+import { gaEvent } from "@tradetrust-tt/tradetrust-utils";
 import { CheckCircle, XCircle } from "react-feather";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDocumentIssued, getDocumentPrepared, getWrappedDocument } from "../../../../reducers/demo-create";
 import { DemoFormContext } from "../contexts/DemoFormContext";
 import { Banner } from "../../../UI/Banner";
-import { gaEvent } from "../../../../common/analytics";
+import { GaAction, GaCategory } from "../../../../types";
 
 export const DemoCreateIssue: FunctionComponent = () => {
   const { issued, error: issuedError } = useSelector(getDocumentIssued);
@@ -26,8 +27,8 @@ export const DemoCreateIssue: FunctionComponent = () => {
     if (issued) {
       downloadDocument();
       gaEvent({
-        action: "magic_demo_downloaded",
-        category: "magic_demo",
+        action: GaAction.MAGIC_DOWNLOADED,
+        category: GaCategory.MAGIC_DEMO,
       });
     }
   }, [issued, downloadDocument]);
@@ -39,13 +40,13 @@ export const DemoCreateIssue: FunctionComponent = () => {
         <div className="text-center">
           {error ? (
             <>
-              <XCircle width="48px" height="48px" className="text-rose w-full mb-4" />
+              <XCircle width="48px" height="48px" className="text-scarlet-500 w-full mb-4" />
               <h3>Failed</h3>
               <p className="py-5">
                 Please check if you have internet connection,
                 <br /> alternatively, see <Link to="/faq">FAQ</Link> or <Link to="/contact">Contact us</Link>
               </p>
-              <Button className="bg-cerulean text-white rounded hover:bg-cerulean-500">
+              <Button className="bg-cerulean-500 text-white rounded hover:bg-cerulean-800">
                 <Link className="text-white hover:text-white" to="/demo">
                   Try Again
                 </Link>
@@ -53,7 +54,7 @@ export const DemoCreateIssue: FunctionComponent = () => {
             </>
           ) : (
             <>
-              <CheckCircle width="48px" height="48px" className="text-emerald w-full mb-4" />
+              <CheckCircle width="48px" height="48px" className="text-forest-500 w-full mb-4" />
               <h3>Success!</h3>
               <p className="py-5">
                 Your file will be downloaded automatically, if it

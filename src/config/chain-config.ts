@@ -5,15 +5,19 @@ import { ChainId } from "../constants/chain-info";
  */
 export const MAIN_NETWORKS = [
   ChainId.Ethereum, //
-  // ChainId.Polygon,
+  ChainId.Polygon,
+  ChainId.XDC,
+  ChainId.HederaMainnet,
+  ChainId.Stability,
 ];
 
 /**
  * Supported networks in development environment
  */
 export const TEST_NETWORKS = [
-  ChainId.Ropsten, //
-  ChainId.Rinkeby,
-  ChainId.Goerli,
-  // ChainId.PolygonMumbai,
+  ChainId.Sepolia,
+  ChainId.Amoy,
+  ChainId.APOTHEM,
+  ChainId.StabilityTestnet,
+  ChainId.HederaTestnet,
 ];

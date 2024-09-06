@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
-import { VerificationFragment } from "@govtechsg/oa-verify";
-import { CONSTANTS, errorMessageHandling } from "@govtechsg/tradetrust-utils";
+import { VerificationFragment } from "@tradetrust-tt/tt-verify";
+import { CONSTANTS, errorMessageHandling } from "@tradetrust-tt/tradetrust-utils";
 
 export const DetailedError: FunctionComponent<{ title: string; message: string }> = ({ title, message }) => {
   return (
     <div className="my-2 sm:mx-8 xl:mx-16">
-      <h4 className="text-red-500 mb-0">{title}</h4>
-      <p className="text-gray-700 break-words">{message}</p>
+      <h4 className="text-scarlet-500 mb-0">{title}</h4>
+      <p className="text-cloud-800 break-words">{message}</p>
     </div>
   );
 };

@@ -1,4 +1,11 @@
-import { addClassNameIfExist, convertSecondsToMinAndSec, isEthereumAddress, getFileName } from "./";
+import {
+  addClassNameIfExist,
+  convertSecondsToMinAndSec,
+  isEthereumAddress,
+  getFileName,
+  currentDateStr,
+  isExternalLink,
+} from "./";
 
 describe("utils/isEthereumAddress", () => {
   it("should work", () => {
@@ -40,5 +47,25 @@ describe("utils/getFileName", () => {
   it("should return the correct file name even if file name does not have an extension", () => {
     const filePath = "/abc/path2/file";
     expect(getFileName(filePath)).toEqual("file");
+  });
+});
+
+describe("utils/currentDateStr", () => [
+  it("should return the current date as a string", () => {
+    jest.useFakeTimers("modern").setSystemTime(new Date("2023-03-25"));
+    const date = currentDateStr();
+    expect(date).toMatch(/25/);
+    expect(date).toMatch(/03/);
+    expect(date).toMatch(/2023/);
+  }),
+]);
+
+describe("isExternalLink", () => {
+  it("should return true for external link", () => {
+    expect(isExternalLink("https://v2.tradetrust.io/")).toBe(true);
+  });
+
+  it("should return false for internal link", () => {
+    expect(isExternalLink("/verify")).toBe(false);
   });
 });

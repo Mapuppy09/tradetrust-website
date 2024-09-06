@@ -1,5 +1,6 @@
-import { OpenAttestationDocument } from "@govtechsg/open-attestation";
-import { ProgressBar, ToggleSwitch } from "@govtechsg/tradetrust-ui-components";
+import { OpenAttestationDocument } from "@tradetrust-tt/tradetrust";
+import { ProgressBar, ToggleSwitch } from "@tradetrust-tt/tradetrust-ui-components";
+import { gaEvent } from "@tradetrust-tt/tradetrust-utils";
 import React, { FunctionComponent, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useProviderContext } from "../../../../common/contexts/provider";
@@ -11,16 +12,16 @@ import {
   issuingDocument,
   wrappingDocument,
 } from "../../../../reducers/demo-create";
-import { LoadingModal } from "../../LoadingModal";
+import { LoadingModal } from "../../../UI/Overlay";
 import { DemoCreateContext } from "../contexts/DemoCreateContext";
 import { DemoFormContext } from "../contexts/DemoFormContext";
 import { DemoCreateButtonRow } from "../DemoCreateButtonRow";
 import { schema } from "../DemoCreateForm/schema";
 import { FormItemSchema } from "../DemoCreateForm/types";
 import { getFormValue, isImageData } from "../utils";
-import { gaEvent } from "../../../../common/analytics";
 import { makeRawDocument } from "./helpers";
 import { DocumentPreview } from "./DemoPreview";
+import { GaAction, GaCategory } from "../../../../types";
 
 const DemoCreateReviewItem = ({
   title,
@@ -78,7 +79,7 @@ const DefaultReview = (data: Record<string, FormItemSchema>) => {
 export const DemoCreateReview: FunctionComponent = () => {
   const { setActiveStep } = useContext(DemoCreateContext);
   const { formValues } = useContext(DemoFormContext);
-  const { getTransactor } = useProviderContext();
+  const { providerOrSigner } = useProviderContext();
   const wrapDocumentStatus = useSelector(getWrappedDocumentStatus);
   const issueDocumentStatus = useSelector(getIssuedDocumentStatus);
   const documentStoreAddress = useSelector(getDocumentStoreAddress);
@@ -101,15 +102,14 @@ export const DemoCreateReview: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    const provider = getTransactor();
     if (wrapDocumentStatus !== null && wrapDocumentStatus === "success") {
-      dispatch(issuingDocument(provider));
+      dispatch(issuingDocument(providerOrSigner));
       gaEvent({
-        action: "magic_demo_issue",
-        category: "magic_demo",
+        action: GaAction.MAGIC_ISSUE,
+        category: GaCategory.MAGIC_DEMO,
       });
     }
-  }, [wrapDocumentStatus, dispatch, getTransactor]);
+  }, [wrapDocumentStatus, dispatch, providerOrSigner]);
 
   useEffect(() => {
     if (issueDocumentStatus !== null && issueDocumentStatus !== "pending") {
@@ -136,7 +136,7 @@ export const DemoCreateReview: FunctionComponent = () => {
       <ProgressBar totalSteps={3} step={2} />
       <div className="my-4 flex justify-between">
         <h3 className="my-3">Please confirm details</h3>
-        <div className="text-cloud-900 flex items-center">
+        <div className="text-cloud-800 flex items-center">
           <div className="align-middle mr-4">Preview mode:</div>
           <ToggleSwitch isOn={isPreviewMode} handleToggle={toggleHandler} />
         </div>

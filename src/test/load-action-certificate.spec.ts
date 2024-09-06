@@ -10,14 +10,15 @@ test("Load document from action should work when url is valid", async (t) => {
   const action = {
     type: "DOCUMENT",
     payload: {
-      uri: `https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/tradetrust/v2/ebl-ropsten.tt`,
+      uri: `https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/tradetrust/v2/ebl-stability.json`,
       permittedActions: ["VIEW"],
-      redirect: "https://dev.tradetrust.io",
+      redirect: "https://tradetrust.io",
+      chainId: 101010,
     },
   };
   await t.navigateTo(`${location}/?q=${encodeURI(JSON.stringify(action))}`);
 
-  await validateIssuerTexts(["DEMO-TRADETRUST.OPENATTESTATION.COM"]);
+  await validateIssuerTexts(["EXAMPLE.TRADETRUST.IO"]);
   validateIframeTexts(["BILL OF LADING FOR OCEAN TRANSPORT OR MULTIMODAL TRANSPORT"]);
 });
 
@@ -25,7 +26,27 @@ test("Load document from action should fail when url is invalid", async (t) => {
   const action = {
     type: "DOCUMENT",
     payload: {
-      uri: `https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/123.tt`,
+      uri: `https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/tradetrust/v2/ebl-stability-invalid.json`,
+      redirect: "https://tradetrust.io",
+      chainId: 101010,
+    },
+  };
+
+  await t.navigateTo(`${location}/?q=${encodeURI(JSON.stringify(action))}`);
+
+  await DocumentStatus.with({ visibilityCheck: false })();
+  await validateTextContent(t, CertificateDropzone, [
+    "This document is not valid",
+    "Unable to load certificate with the provided parameters",
+    "Unable to load the certificate from https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/tradetrust/v2/ebl-stability-invalid.json",
+  ]);
+});
+
+test("Load document from action should fail when chainId not exists", async (t) => {
+  const action = {
+    type: "DOCUMENT",
+    payload: {
+      uri: `https://raw.githubusercontent.com/TradeTrust/tradetrust-website/test/tt-105-update-fixtures-amoy/src/test/fixture/amoy/ebl-amoy-v2.json`,
       redirect: "https://dev.tradetrust.io",
     },
   };
@@ -36,6 +57,6 @@ test("Load document from action should fail when url is invalid", async (t) => {
   await validateTextContent(t, CertificateDropzone, [
     "This document is not valid",
     "Unable to load certificate with the provided parameters",
-    "Unable to load the certificate from https://raw.githubusercontent.com/Open-Attestation/gallery/master/static/documents/123.tt",
+    "This document has an invalid network field. Please contact your issuing authority for help or re-issue the document with a valid network field before trying again.",
   ]);
 });
